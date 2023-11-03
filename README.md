@@ -1,0 +1,1 @@
+# reifuu-iirose-plugin-core
