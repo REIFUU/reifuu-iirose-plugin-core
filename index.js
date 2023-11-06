@@ -87,7 +87,7 @@ class REIFUU_Plugin {
   /** @type {string} 插件id */
   pluginID;
 
-  /** @method constructor 设置主要子插件 */
+  /** @method constructor*/
   constructor() {
   }
 
