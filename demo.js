@@ -5,6 +5,7 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
     core: '0.0.1'
   };
 
+  config=[]
   constructor() {
     super();
     this.plugInit(this);
