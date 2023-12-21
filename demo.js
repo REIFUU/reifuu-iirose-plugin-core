@@ -16,6 +16,7 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
       d: {/*西格玛的配置构型*/ }
     }
   };
+  
   // 配置方式2
   config = {
     a: {/*西格玛的配置构型*/ },
