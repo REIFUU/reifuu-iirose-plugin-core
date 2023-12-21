@@ -57,6 +57,12 @@ class EventEmitter {
     }
   }
 }
+
+const schemasteryLink = document.createElement("script");
+schemasteryLink.type = "module";
+schemasteryLink.src = "https://xc.null.red:8043/XCimg/img/iirose/Kurose_Kiri/zeR0Tsu/dev/schemastery/index.js";
+document.body.appendChild(schemasteryLink);
+
 const eventEmitter = new EventEmitter();
 
 const nowREIFUUPluginList = {
@@ -77,6 +83,9 @@ class REIFUU_Plugin {
   /** @type { JSON } 插件依赖 */
   depend;
 
+  /** 插件服务 */
+  server = {};
+
   /** @type { 'start' | 'stop' | 'reload' | 'error' | 'remove' } */
   status;
 
@@ -89,6 +98,7 @@ class REIFUU_Plugin {
 
   /** @method constructor*/
   constructor() {
+    this.server.schemastery = window.schemastery;
   }
 
   /** @method start 启动主要子插件 */
