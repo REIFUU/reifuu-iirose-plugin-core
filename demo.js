@@ -5,8 +5,23 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
     core: '0.0.1'
   };
 
-  config=[];
-  
+  // 配置方式1
+  config = {
+    '主要配置': {
+      a: {/*西格玛的配置构型*/ },
+      b: {/*西格玛的配置构型*/ }
+    },
+    '次要配置': {
+      c: {/*西格玛的配置构型*/ },
+      d: {/*西格玛的配置构型*/ }
+    }
+  };
+  // 配置方式2
+  config = {
+    a: {/*西格玛的配置构型*/ },
+    b: {/*西格玛的配置构型*/ }
+  };
+
   constructor() {
     super();
     this.plugInit(this);
@@ -25,4 +40,4 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
     // 插件消除影响代码
     /* code */
   }
-}
+};
