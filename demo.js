@@ -5,7 +5,8 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
     core: '0.0.1'
   };
 
-  config=[]
+  config = {};
+  
   constructor() {
     super();
     this.plugInit(this);
@@ -24,4 +25,4 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
     // 插件消除影响代码
     /* code */
   }
-}
+};
