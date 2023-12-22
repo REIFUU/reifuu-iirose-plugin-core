@@ -1,8 +1,8 @@
 new class REIFUU_Plugin_demo extends REIFUU_Plugin {
-  name = '测试';
-  versions = '0.0.1';
+  name = '测试3';
+  versions = '0.0.5';
   depend = {
-    core: '0.0.1'
+    core: '0.0.3'
   };
 
   配置方式1
@@ -10,18 +10,14 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
     '主要配置': {
       a: this.server.schemastery.number().default(10).max(20).min(10),
       b: this.server.schemastery.string().default('嗨嗨嗨')
-    },
-    '次要配置': {
-      c: this.server.schemastery.array(),
-      d: this.server.schemastery.number().default(10).description('描述'),
     }
   };
-  
+
   // // 配置方式2
   // config = {
-    //   a: this.server.schemastery.number().default(10).max(20).min(10),
-    //   b: this.server.schemastery.string().default('嗨嗨嗨')
-    // };
+  //   a: this.server.schemastery.number().default(10).max(20).min(10),
+  //   b: this.server.schemastery.string().default('嗨嗨嗨')
+  // };
 
   constructor() {
     super();
