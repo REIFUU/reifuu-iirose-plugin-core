@@ -394,7 +394,7 @@ class REIFUU_Plugin
     /** @method constructor*/
     constructor()
     {
-        this.server.schemastery = window.schemastery;
+        // this.server.schemastery = window.schemastery;
     }
 
     /** @method start 启动主要子插件 */
@@ -448,6 +448,7 @@ class REIFUU_Plugin
 
     async plugInit(plugin)
     {
+        this.server.schemastery = window.schemastery;
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 

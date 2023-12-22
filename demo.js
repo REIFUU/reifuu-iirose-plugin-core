@@ -19,9 +19,9 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
   
   // // 配置方式2
   // config = {
-  //   a: {/*西格玛的配置构型*/ },
-  //   b: {/*西格玛的配置构型*/ }
-  // };
+    //   a: this.server.schemastery.number().default(10).max(20).min(10),
+    //   b: this.server.schemastery.string().default('嗨嗨嗨')
+    // };
 
   constructor() {
     super();
