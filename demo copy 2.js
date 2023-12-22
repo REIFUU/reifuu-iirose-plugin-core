@@ -40,3 +40,4 @@ new class REIFUU_Plugin_demo3 extends REIFUU_Plugin {
     /* code */
   }
 };
+
