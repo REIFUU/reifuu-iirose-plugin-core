@@ -428,7 +428,8 @@ class REIFUU_Plugin
     versions;
     /** @type { JSON } 插件依赖 */
     depend;
-
+/** @type { JSON } 插件配置构型 */
+    config;
     /** 插件服务 */
     server = {};
 
@@ -445,8 +446,9 @@ class REIFUU_Plugin
     /** @method constructor*/
     constructor()
     {
+        console.log('aaaaaaaaaaaaaaaaaaaa')
         this.createConfigPage = createConfigPage;
-        // this.server.schemastery = window.schemastery;
+        this.server.schemastery = window.schemastery;
     }
 
     /** @method start 启动主要子插件 */
@@ -484,7 +486,7 @@ class REIFUU_Plugin
 
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
-
+ 
         if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
         this.plugin = null;
     }
@@ -499,7 +501,6 @@ class REIFUU_Plugin
 
     async plugInit(plugin)
     {
-        this.server.schemastery = window.schemastery;
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
