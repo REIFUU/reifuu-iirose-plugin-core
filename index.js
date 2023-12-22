@@ -245,10 +245,10 @@ const createConfigPage = (() =>
     const plugConfigPageArr = {};
     pageBox.append(plugConfigBox);
     plugConfigBox.setAttribute("style", "height: 100%;flex-grow: 1;display: flex;flex-direction: column;");
-    
+
     // 添加插件配置页面于faceHolder
     modifyFaceHolder.addPageItem(6, "插件配置", pageBox);
-    
+
     // 添加插件配置主页内容并显示
     addPage("REIFUU", newElement("ff0000"));
     plugConfigBox.appendChild(plugConfigPageArr[0]);
@@ -303,20 +303,27 @@ const createConfigPage = (() =>
         }
     }
 
-    // const plugConfigTop = document.createElement("div");
-    // plugConfigBox.append(plugConfigTop);
-    // plugConfigTop.setAttribute("style", "position: relative;width: 100%;height: 48px;border-bottom: solid 1px rgba(82, 82, 89, 0.5);display: flex;flex-direction: row-reverse;align-items: center;");
+    function createPlugContent(name)
+    {
+        const plugConfigBox = document.createElement("div");
 
-    // const plugConfigTitle = document.createElement("div");
-    // plugConfigTop.append(plugConfigTitle);
-    // plugConfigTitle.setAttribute("style", "position: absolute;left: 20px;font-size: 18px;font-weight: bolder;");
-    // plugConfigTitle.textContent = plugListArr[0];
+        const plugConfigTop = document.createElement("div");
+        plugConfigBox.append(plugConfigTop);
+        plugConfigTop.setAttribute("style", "position: relative;width: 100%;height: 48px;border-bottom: solid 1px rgba(82, 82, 89, 0.5);display: flex;flex-direction: row-reverse;align-items: center;");
 
-    // const plugConfigButton_Status = document.createElement("div");
-    // plugConfigTop.append(plugConfigButton_Status);
-    // plugConfigButton_Status.setAttribute("style", "font-size: 24px;margin: 0 20px 0 0;cursor: pointer;");
-    // plugConfigButton_Status.innerHTML += `<span class="mdi mdi-play-outline"></span>`;
-    // plugConfigButton_Status.innerHTML += `<span class="mdi mdi-pause"></span>`;
+        const plugConfigTitle = document.createElement("div");
+        plugConfigTop.append(plugConfigTitle);
+        plugConfigTitle.setAttribute("style", "position: absolute;left: 20px;font-size: 18px;font-weight: bolder;");
+        plugConfigTitle.textContent = name;
+
+        const plugConfigButton_Status = document.createElement("div");
+        plugConfigTop.append(plugConfigButton_Status);
+        plugConfigButton_Status.setAttribute("style", "font-size: 24px;margin: 0 20px 0 0;cursor: pointer;");
+        plugConfigButton_Status.innerHTML += `<span class="mdi mdi-play-outline"></span>`;
+        plugConfigButton_Status.innerHTML += `<span class="mdi mdi-pause"></span>`;
+        return plugConfigBox;
+    }
+
 
 
 
@@ -334,7 +341,7 @@ const createConfigPage = (() =>
     //     plugItem.textContent = item;
     // });
 
-    return { addPage, newElement };
+    return { addPage, newElement, createPlugContent };
 })();
 
 
@@ -456,7 +463,6 @@ class REIFUU_Plugin
         if (typeof this.plugin.start !== "undefined") { await this.plugin.start(); }
     }
 
-
     /** @method start 停止主要子插件 */
     async pluginStop()
     {
@@ -497,6 +503,8 @@ class REIFUU_Plugin
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
+        createConfigPage.addPage(this.name, createConfigPage.createPlugContent(this.name));
+
         if (plugin.depend)
         {
             /** @type { number } 0:通过依赖，1:缺少依赖*/
@@ -515,11 +523,13 @@ class REIFUU_Plugin
                     {
                         dependStatus = 1;
                         console.log(`插件【${plugin.name}】依赖的 【${key}】，版本【${nowREIFUUPluginList[dependName]}】验证失败，需要版本：【${dependVersion}】`);
+                        // 这边是依赖的插件版本不对
                     }
                 } else
                 {
                     dependStatus = 1;
                     console.log(`插件【${plugin.name}】缺少依赖 【${key}】，版本：【${dependVersion}】`);
+                    // 这边是缺少依赖
                 }
             }
             if (dependStatus === 0)
