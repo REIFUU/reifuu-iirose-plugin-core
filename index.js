@@ -245,15 +245,15 @@ const createConfigPage = (() =>
     const plugConfigPageArr = {};
     pageBox.append(plugConfigBox);
     plugConfigBox.setAttribute("style", "height: 100%;flex-grow: 1;display: flex;flex-direction: column;");
-
+    
+    // 添加插件配置页面于faceHolder
     modifyFaceHolder.addPageItem(6, "插件配置", pageBox);
-
+    
+    // 添加插件配置主页内容并显示
     addPage("REIFUU", newElement("ff0000"));
     plugConfigBox.appendChild(plugConfigPageArr[0]);
 
-
-
-
+    // devtest
     function newElement(str)
     {
         const ele = document.createElement("div");
@@ -261,7 +261,6 @@ const createConfigPage = (() =>
         ele.textContent = str;
         return ele;
     }
-
 
     /**
      * 添加插件页面
@@ -276,7 +275,6 @@ const createConfigPage = (() =>
         plugList.append(plugItem);
         plugItem.setAttribute("style", "width: 100%;padding: 8px 0px 8px 0px;cursor: pointer;");
         plugItem.setAttribute("index", itemIndex);
-
         Element.setAttribute("index", itemIndex);
         plugConfigPageArr[itemIndex] = Element;
 
