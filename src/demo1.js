@@ -1,4 +1,4 @@
-new class REIFUU_Plugin_demo1 extends REIFUU_Plugin {
+new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
   name = '测试';
   versions = '0.0.1';
   depend = {
@@ -19,15 +19,14 @@ new class REIFUU_Plugin_demo1 extends REIFUU_Plugin {
     //     d: this.server.schemastery.number().default(10).description('描述'),
     //   }
     // };
-    console.log(window.schemastery)
     this.config = {
       '主要配置': {
-        a: window.schemastery.number().default(10).max(20).min(10),
-        b: window.schemastery.string().default('嗨嗨嗨')
+        a: this.server.schemastery.number().default(10).max(20).min(10),
+        b: this.server.schemastery.string().default('嗨嗨嗨')
       },
       '次要配置': {
-        c: window.schemastery.array(),
-        d: window.schemastery.number().default(10).description('描述'),
+        c: this.server.schemastery.array(),
+        d: this.server.schemastery.number().default(10).description('描述'),
       }
     };
     // 插件进行初始化代码

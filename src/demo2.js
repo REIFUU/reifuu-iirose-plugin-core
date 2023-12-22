@@ -1,4 +1,4 @@
-new class REIFUU_Plugin_demo2 extends REIFUU_Plugin {
+new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin {
   name = '测试2';
   versions = '0.0.1';
   depend = {
@@ -14,15 +14,14 @@ new class REIFUU_Plugin_demo2 extends REIFUU_Plugin {
   constructor() {
     super();
     this.plugInit(this);
-    console.log(window.schemastery)
     // 配置方式2
     // this.config = {
     //   a: this.server.schemastery.number().default(10).max(20).min(10),
     //   b: this.server.schemastery.string().default('嗨嗨嗨')
     // };
     this.config = {
-      a: window.schemastery.number().default(10).max(20).min(10),
-      b: window.schemastery.string().default('嗨嗨嗨')
+      a: this.server.schemastery.number().default(10).max(20).min(10),
+      b: this.server.schemastery.string().default('嗨嗨嗨')
     };
 
     // 插件进行初始化代码
