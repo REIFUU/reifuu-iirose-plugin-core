@@ -228,7 +228,7 @@ const modifyFaceHolder = (() =>
 })();
 
 /**
- * 
+ * 创建插件配置页面及方法
  */
 const createConfigPage = (() =>
 {
@@ -245,6 +245,18 @@ const createConfigPage = (() =>
     plugConfigBox.setAttribute("style", "height: 100%;flex-grow: 1;display: flex;flex-direction: column;");
 
     modifyFaceHolder.addPageItem(6, "插件配置", pageBox);
+
+    function addPage(title, Element)
+    {
+        const plugItem = document.createElement("div");
+        plugList.append(plugItem);
+        plugItem.setAttribute("style", "width: 100%;padding: 8px 0px 8px 0px;cursor: pointer;");
+        plugItem.addEventListener("click", () =>
+        {
+            console.log(item);
+        });
+        plugItem.textContent = title;
+    }
 
 
     // const plugConfigTop = document.createElement("div");
@@ -278,7 +290,7 @@ const createConfigPage = (() =>
     //     plugItem.textContent = item;
     // });
 
-    return {};
+    return {addPage,};
 })();
 
 
