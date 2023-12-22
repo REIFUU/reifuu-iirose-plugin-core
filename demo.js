@@ -34,7 +34,6 @@ new class REIFUU_Plugin_demo extends REIFUU_Plugin {
   }
 
   start() {
-
     // 插件主代码
     /* code */
   }
