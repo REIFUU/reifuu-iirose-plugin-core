@@ -5,11 +5,11 @@ new class REIFUU_Plugin_demo3 extends REIFUU_Plugin {
     core: '0.0.3'
   };
 
-  配置方式1
+//   配置方式1
   config = {
     '主要配置': {
-      a: this.server.schemastery.number().default(10).max(20).min(10),
-      b: this.server.schemastery.string().default('嗨嗨嗨')
+    //   a: this.server.schemastery.number().default(10).max(20).min(10),
+    //   b: this.server.schemastery.string().default('嗨嗨嗨')
     }
   };
 

@@ -306,10 +306,11 @@ const createConfigPage = (() =>
     function createPlugContent(name)
     {
         const plugConfigBox = document.createElement("div");
+        plugConfigBox.setAttribute("style", "height: 100%;flex-grow: 1;display: flex;flex-direction: column;");
 
         const plugConfigTop = document.createElement("div");
         plugConfigBox.append(plugConfigTop);
-        plugConfigTop.setAttribute("style", "position: relative;width: 100%;height: 48px;border-bottom: solid 1px rgba(82, 82, 89, 0.5);display: flex;flex-direction: row-reverse;align-items: center;");
+        plugConfigTop.setAttribute("style", "margin: 0 0 16px 0;position: relative;width: 100%;height: 48px;border-bottom: solid 1px rgba(82, 82, 89, 0.5);display: flex;flex-direction: row-reverse;align-items: center;");
 
         const plugConfigTitle = document.createElement("div");
         plugConfigTop.append(plugConfigTitle);
@@ -321,6 +322,43 @@ const createConfigPage = (() =>
         plugConfigButton_Status.setAttribute("style", "font-size: 24px;margin: 0 20px 0 0;cursor: pointer;");
         plugConfigButton_Status.innerHTML += `<span class="mdi mdi-play-outline"></span>`;
         plugConfigButton_Status.innerHTML += `<span class="mdi mdi-pause"></span>`;
+
+        const configView = document.createElement("div");
+        plugConfigBox.append(configView);
+        configView.setAttribute("style", "overflow: auto;position: relative;height: 100%;");
+
+        const scrollbarView = document.createElement("div");
+        configView.append(scrollbarView);
+        scrollbarView.setAttribute("style", "margin: 0 30px;");
+
+        const navBtn = document.createElement("div");
+        scrollbarView.append(navBtn);
+        navBtn.setAttribute("style", "display: flex;flex-direction: row;margin: 0 0 16px 0;");
+
+
+        const btn0 = document.createElement("div");
+        const btn1 = document.createElement("div");
+        const btn2 = document.createElement("div");
+        navBtn.append(btn0);
+        navBtn.append(btn1);
+        navBtn.append(btn2);
+        btn0.setAttribute("style", "cursor: pointer;border: solid 1px rgba(82, 82, 89, 0.8);border-radius: 2px;white-space: nowrap;padding: 6px 12px;margin: 0 12px 0 0;");
+        btn1.setAttribute("style", "cursor: pointer;border: solid 1px rgba(82, 82, 89, 0.8);border-radius: 2px;white-space: nowrap;padding: 6px 12px;margin: 0 12px 0 0;");
+        btn2.setAttribute("style", "cursor: pointer;border: solid 1px rgba(82, 82, 89, 0.8);border-radius: 2px;white-space: nowrap;padding: 6px 12px;margin: 0 12px 0 0;");
+        btn0.textContent = `当前版本：${"0.0.1"}`;
+        btn1.textContent = "插件主页";
+        btn2.textContent = "问题反馈";
+
+        const tips1 = document.createElement("div");
+        scrollbarView.append(tips1);
+        tips1.setAttribute("style", "background: rgba(59, 165, 94, .1);border-left: #3ba55e 4px solid;padding: 6px 12px;margin: 0 0 12px 0;");
+        tips1.textContent = "OK！";
+        const tips2 = document.createElement("div");
+        scrollbarView.append(tips2);
+        tips2.setAttribute("style", "margin: 0 0 12px 0;background: rgba(116, 89, 255, .1);border-left: #7459ff 4px solid;padding: 6px 12px;");
+        tips2.textContent = "tips！";
+
+
         return plugConfigBox;
     }
 
@@ -503,7 +541,8 @@ class REIFUU_Plugin
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
-        createConfigPage.addPage(this.name, createConfigPage.createPlugContent(this.name));
+        const addPage = createConfigPage.createPlugContent(this.name);
+        createConfigPage.addPage(this.name, addPage);
 
         if (plugin.depend)
         {
@@ -524,6 +563,7 @@ class REIFUU_Plugin
                         dependStatus = 1;
                         console.log(`插件【${plugin.name}】依赖的 【${key}】，版本【${nowREIFUUPluginList[dependName]}】验证失败，需要版本：【${dependVersion}】`);
                         // 这边是依赖的插件版本不对
+                        addPage.innerHTML += "<div>ces3</div>";
                     }
                 } else
                 {

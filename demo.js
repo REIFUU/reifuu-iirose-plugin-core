@@ -8,20 +8,20 @@ new class REIFUU_Plugin_demo1 extends REIFUU_Plugin {
 //   配置方式1
   config = {
     '主要配置': {
-      a: this.server.schemastery.number().default(10).max(20).min(10),
-      b: this.server.schemastery.string().default('嗨嗨嗨')
+    //   a: this.server.schemastery.number().default(10).max(20).min(10),
+    //   b: this.server.schemastery.string().default('嗨嗨嗨')
     },
     '次要配置': {
-      c: this.server.schemastery.array(),
-      d: this.server.schemastery.number().default(10).description('描述'),
+    //   c: this.server.schemastery.array(),
+    //   d: this.server.schemastery.number().default(10).description('描述'),
     }
   };
   
-//   // 配置方式2
-//   config = {
-//       a: this.server.schemastery.number().default(10).max(20).min(10),
-//       b: this.server.schemastery.string().default('嗨嗨嗨')
-//     };
+  // // 配置方式2
+  // config = {
+    //   a: this.server.schemastery.number().default(10).max(20).min(10),
+    //   b: this.server.schemastery.string().default('嗨嗨嗨')
+    // };
 
   constructor() {
     super();
