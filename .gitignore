@@ -6,6 +6,7 @@
 
 # 忽略所有 .tmp 后缀的文件
 *.tmp
+.vscode
 
 # 忽略特定文件
 config.ini
