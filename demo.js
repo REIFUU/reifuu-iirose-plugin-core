@@ -1,4 +1,4 @@
-new class REIFUU_Plugin_demo extends REIFUU_Plugin {
+new class REIFUU_Plugin_demo1 extends REIFUU_Plugin {
   name = '测试';
   versions = '0.0.1';
   depend = {
