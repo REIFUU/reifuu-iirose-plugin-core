@@ -28,7 +28,8 @@ const modifyFaceHolder = (() =>
     {
         // @ts-ignore
         const /**@type {Element} */ isPage = mutationsList[0].addedNodes[0];
-        if (isPage.className === "emojiContentBox")
+        const className = isPage.className;
+        if (className === "emojiContentBox")
         {
             const index = isPage.getAttribute("index");
             if (initAddPageItem[index])
@@ -241,23 +242,68 @@ const createConfigPage = (() =>
     plugList.setAttribute("style", "background-color: rgb(37, 37, 41);border-right: 1px solid rgba(82, 82, 89, 0.5);min-width: 16%;height: 100%;overflow-x: hidden;padding: 8px 0 0 24px;");
 
     const plugConfigBox = document.createElement("div");
+    const plugConfigPageArr = {};
     pageBox.append(plugConfigBox);
     plugConfigBox.setAttribute("style", "height: 100%;flex-grow: 1;display: flex;flex-direction: column;");
 
     modifyFaceHolder.addPageItem(6, "插件配置", pageBox);
 
+    addPage("REIFUU", newElement("ff0000"));
+    plugConfigBox.appendChild(plugConfigPageArr[0]);
+
+
+
+
+    function newElement(str)
+    {
+        const ele = document.createElement("div");
+        ele.setAttribute("style", `height: 90%;width: 90%;background:#${str};margin:12px`);
+        ele.textContent = str;
+        return ele;
+    }
+
+
+    /**
+     * 添加插件页面
+     * @param {string} title 
+     * @param {Element} [Element] 
+     */
     function addPage(title, Element)
     {
         const plugItem = document.createElement("div");
+        const plugListArr = plugList.querySelectorAll("div");
+        const itemIndex = plugListArr.length.toString();
         plugList.append(plugItem);
         plugItem.setAttribute("style", "width: 100%;padding: 8px 0px 8px 0px;cursor: pointer;");
+        plugItem.setAttribute("index", itemIndex);
+
+        Element.setAttribute("index", itemIndex);
+        plugConfigPageArr[itemIndex] = Element;
+
         plugItem.addEventListener("click", () =>
         {
-            console.log(item);
+            switchConfigPage(itemIndex);
+            console.log(title);
         });
         plugItem.textContent = title;
     }
 
+    /**
+     * 切换配置页面
+     * @param {number} target 
+     */
+    function switchConfigPage(target)
+    {
+        const controls = plugConfigBox.querySelector('div');
+        const nowIndex = controls.getAttribute("index");
+        if (nowIndex != target)
+        {
+            const targetDom = plugConfigPageArr[target];
+            controls.remove();
+            plugConfigPageArr[nowIndex] = controls;
+            plugConfigBox.appendChild(targetDom);
+        }
+    }
 
     // const plugConfigTop = document.createElement("div");
     // plugConfigBox.append(plugConfigTop);
@@ -290,7 +336,7 @@ const createConfigPage = (() =>
     //     plugItem.textContent = item;
     // });
 
-    return {addPage,};
+    return { addPage, newElement };
 })();
 
 
@@ -394,6 +440,7 @@ class REIFUU_Plugin
     /** @method constructor*/
     constructor()
     {
+        this.createConfigPage = createConfigPage;
         // this.server.schemastery = window.schemastery;
     }
 
