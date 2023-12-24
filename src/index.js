@@ -257,7 +257,7 @@ const createConfigPage = (() => {
 
     /**
      * 切换配置页面
-     * @param {number} target 
+     * @param {number} target
      */
     function switchConfigPage(target) {
         const controls = plugConfigBox.querySelector('div');
@@ -342,7 +342,7 @@ const createConfigPage = (() => {
      * @param {number} type 类型 0：true  1：info 2：warning
      * @returns {Element}
      */
-    function createTipsElement(text, type)
+    function createTipsElement(text, type) 
     {
         const tips = document.createElement("div");
         if (type === 0)
