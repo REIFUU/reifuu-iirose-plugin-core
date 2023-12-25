@@ -97,6 +97,9 @@ export class REIFUU_Plugin {
     constructor() {
         this.createConfigPage = createConfigPage;
         this.server.schemastery = Schema;
+        this.server.schemastery.button = (functionName) => {
+            return this.plugin[functionName]();
+        }
     }
 
     /** @method start 启动主要子插件 */

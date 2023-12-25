@@ -6,12 +6,16 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
     };
     config = {
         '主要配置': {
-            a: this.server.schemastery.number().default(10).max(20).min(10),
-            b: this.server.schemastery.string().default('嗨嗨嗨')
+            a: this.server.schemastery.boolean().default(true),
+            b: this.server.schemastery.boolean().default(false),
+            c: this.server.schemastery.string(),
+            d: this.server.schemastery.string().role('secret')
         },
         '次要配置': {
-            c: this.server.schemastery.array(),
-            d: this.server.schemastery.number().default(10).description('描述'),
+            e: this.server.schemastery.string().pattern(/^custom$/i),
+            f: this.server.schemastery.array(Number),
+            g: this.server.schemastery.array(String),
+            h: this.server.schemastery.button('test')
         }
     };
 
@@ -33,5 +37,9 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
     stop() {
         // 插件消除影响代码
         /* code */
+    }
+
+    test(){
+        console.log('button被点击')
     }
 };
