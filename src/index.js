@@ -404,8 +404,7 @@ function generateRandomString() {
         result += characters[randomIndex];
     }
     const now = Date.now();
-    const md5 = md5(now);
-    result += md5;
+    result += md5(now);;
     return result;
 }
 
