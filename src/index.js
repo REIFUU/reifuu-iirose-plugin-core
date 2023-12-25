@@ -2,9 +2,7 @@ import Schema from 'schemastery';
 import md5 from 'md5';
 import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 
-window.Schema = Schema;
-
-
+export const Schema = Schema;
 
 /**
  * 生成16位随机英文+数字
