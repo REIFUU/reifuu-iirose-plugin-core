@@ -9,9 +9,9 @@
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // @require      file:///dist文件夹下的index.js
-// @require      file:///src文件夹下的demo1.js
-// @require      file:///src文件夹下的demo2.js
-// @require      file:///src文件夹下的demo3.js
+// @require      file:///dist文件夹下的demo1.js
+// @require      file:///dist文件夹下的demo2.js
+// @require      file:///dist文件夹下的demo3.js
 // ==/UserScript==
 
 (function() {
