@@ -16,8 +16,10 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
     {
         super();
         this.config = {
-            a: this.server.schemastery.number().default(10).max(20).min(10),
-            b: this.server.schemastery.string().default('嗨嗨嗨')
+            "配置项目1": {
+                a: this.server.schemastery.number().default(10).max(20).min(10),
+                b: this.server.schemastery.string().default('嗨嗨嗨')
+            }
         };
         this.plugInit(this);
         // 配置方式2

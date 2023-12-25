@@ -11,11 +11,11 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
         super();
         this.config = {
             '主要配置': {
-                a: this.server.schemastery.number().default(10).max(20).min(10),
+                "数字测试": this.server.schemastery.number().default(10).max(20).min(10).description("测试数字构型1111111111111111111111111111111111111111111111111111111111iyugilyudgaiyufgidsgfigasdgyiufyuasgyifguygauiygdfyugauiuigfauiy"),
                 b: this.server.schemastery.string().default('嗨嗨嗨')
             },
             '次要配置': {
-                c: this.server.schemastery.array(),
+                c: this.server.schemastery.array().default([1,2,3,4]),
                 d: this.server.schemastery.number().default(10).description('描述'),
             }
         };
