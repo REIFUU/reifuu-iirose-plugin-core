@@ -572,6 +572,8 @@ export class REIFUU_Plugin {
                     }
                 });
                 this.plugin = plugin;
+                const text = `插件【${plugin.name}】启动成功！`;
+                pageContent.append(createConfigPage.createTipsElement(text, 0));
                 this.pluginStart();
 
             } else {
