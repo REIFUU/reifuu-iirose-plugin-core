@@ -471,7 +471,6 @@ export class REIFUU_Plugin {
     /** @method constructor*/
     constructor() {
         this.createConfigPage = createConfigPage;
-        console.log(Schema);
         this.server.schemastery = Schema;
     }
 
@@ -520,6 +519,7 @@ export class REIFUU_Plugin {
     }
 
     async plugInit(plugin) {
+        console.log(plugin.name)
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
