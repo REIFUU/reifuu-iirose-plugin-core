@@ -169,7 +169,7 @@ export class REIFUU_Plugin
         const addPage = createConfigPage.createPlugContent(plugin);
         const pageContent = addPage.querySelector("#pageContent");
         createConfigPage.addPage(plugin, addPage);
-       
+
 
         if (plugin.depend)
         {
@@ -214,21 +214,14 @@ export class REIFUU_Plugin
                     }
                 });
                 this.plugin = plugin;
+                // zheli
+                console.log(`插件【${plugin.name}】启动成功！`);
                 this.pluginStart();
 
             } else
             {
                 return console.log(`插件【${plugin.name}】启动失败！`);
             }
-        } else
-        {
-            plugin.pluginID = generateRandomString();
-            this.plugin = plugin;
-            console.log("启动：", plugin.name);// 这句
-            // 配置构型生成
-            pageContent.append(createConfigPage.createConfigElement(plugin));
-
-            this.pluginStart();
         }
     }
 }

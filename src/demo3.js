@@ -3,7 +3,7 @@ new class REIFUU_Plugin_demo3 extends window.reifuuPluginCore.REIFUU_Plugin
     name = '测试3';
     versions = '0.0.5';
     depend = {
-        core: '0.0.1'
+        core: '0.0.10'
     };
 
     constructor()
