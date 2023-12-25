@@ -193,7 +193,6 @@ export class REIFUU_Plugin {
                 const text = `插件【${plugin.name}】启动成功！`;
                 pageContent.append(createConfigPage.createTipsElement(text, 0));
                 // zheli
-                console.log(`插件【${plugin.name}】启动成功！`);
                 this.pluginStart();
 
             } else {
