@@ -1,4 +1,5 @@
-import Schema from 'schemastery';;
+import Schema from 'schemastery';
+import md5 from 'md5';
 
 window.Schema = Schema;
 /**
@@ -402,6 +403,9 @@ function generateRandomString() {
         let randomIndex = Math.floor(Math.random() * characters.length);
         result += characters[randomIndex];
     }
+    const now = Date.now();
+    const md5 = md5(now);
+    result += md5;
     return result;
 }
 
