@@ -1,16 +1,15 @@
-import Schema from 'schemastery';
+import Schemas from 'schemastery';
 import md5 from 'md5';
 import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 
-export const Schema = Schema;
+export const Schema = Schemas;
 
 /**
  * 生成16位随机英文+数字
  * @returns 
  */
 // TODO:优化唯一性生成
-function generateRandomString()
-{
+function generateRandomString() {
     let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
     for (let i = 0; i < 16; i++) {
@@ -189,6 +188,7 @@ export class REIFUU_Plugin {
                 });
                 this.plugin = plugin;
                 const text = `插件【${plugin.name}】启动成功！`;
+                console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 0));
                 // zheli
                 this.pluginStart();
@@ -199,6 +199,15 @@ export class REIFUU_Plugin {
                 pageContent.append(createConfigPage.createTipsElement(text, 2));
                 return;
             }
+        } else {
+            plugin.pluginID = generateRandomString();
+            this.plugin = plugin;
+            const text = `插件【${plugin.name}】启动成功！`;
+            console.log(text);// 这句
+            // 配置构型生成
+            pageContent.append(createConfigPage.createConfigElement(text));
+
+            this.pluginStart();
         }
     }
 }
