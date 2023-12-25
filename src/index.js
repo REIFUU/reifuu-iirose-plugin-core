@@ -1,4 +1,4 @@
-import Schema from 'schemastery';
+import Schema from 'schemastery';;
 
 window.Schema = Schema;
 /**
@@ -385,22 +385,18 @@ const createConfigPage = (() =>
      * @param {number} type 类型 0：true  1：info 2：warning
      * @returns {Element}
      */
-    function createTipsElement(text, type) 
+    function createTipsElement(text, type)
     {
         const tips = document.createElement("div");
-        if (type === 0)
-        {
+        if (type === 0) {
             tips.setAttribute("style", "background: rgba(59, 165, 94, .1);border-left: #3ba55e 4px solid;padding: 6px 12px;margin: 0 0 12px 0;");
 
-        } else if (type === 1)
-        {
+        } else if (type === 1) {
             tips.setAttribute("style", "margin: 0 0 12px 0;background: rgba(116, 89, 255, .1);border-left: #7459ff 4px solid;padding: 6px 12px;");
-        } else if (type === 2)
-        {
+        } else if (type === 2) {
             tips.setAttribute("style", "margin: 0 0 12px 0;background: rgba(249, 175, 27, .1);border-left: #f9af1b 4px solid;padding: 6px 12px;");
         }
-        else
-        {
+        else {
             return;
         }
         tips.textContent = text;
@@ -517,8 +513,11 @@ export class REIFUU_Plugin
     depend;
     /** @type { JSON } 插件配置构型 */
     config;
+
     /** 插件服务 */
-    server = {};
+    server = {
+        schemastery: Schema
+    };
 
     /** @type { 'start' | 'stop' | 'reload' | 'error' | 'remove' } */
     status;
@@ -534,7 +533,6 @@ export class REIFUU_Plugin
     constructor()
     {
         this.createConfigPage = createConfigPage;
-        console.log(Schema);
         this.server.schemastery = Schema;
     }
 
