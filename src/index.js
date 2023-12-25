@@ -12,8 +12,7 @@ window.Schema = Schema;
  * 修改faceHolder相关方法
  * @type {modifyFaceHolder}
  */
-const modifyFaceHolder = (() =>
-{
+const modifyFaceHolder = (() => {
     const faceHolder = document.getElementById("faceHolder");
     const faceHolderType = faceHolder.querySelector(".faceHolderType");
     const pageList = faceHolder.querySelector("div:nth-child(2)");
@@ -27,16 +26,13 @@ const modifyFaceHolder = (() =>
     const pageTransitionOFFRight = "opacity: 0; transition: opacity 0.25s ease 0s, transform 0.25s ease 0s; transform: translateX(-10%);z-index:999;";
 
 
-    const pageListObserver = new MutationObserver(mutationsList =>
-    {
+    const pageListObserver = new MutationObserver(mutationsList => {
         // @ts-ignore
         const /**@type {Element} */ isPage = mutationsList[0].addedNodes[0];
         const className = isPage.className;
-        if (className === "emojiContentBox")
-        {
+        if (className === "emojiContentBox") {
             const index = isPage.getAttribute("index");
-            if (initAddPageItem[index])
-            {
+            if (initAddPageItem[index]) {
                 initCreatePage(index, isPage);
             }
         }
@@ -49,11 +45,9 @@ const modifyFaceHolder = (() =>
      * @param {string} title - 添加子页面标题
      * @param {Element|string} [content] - 添加子页面内容
      */
-    function addPageItem(index, title, content)
-    {
+    function addPageItem(index, title, content) {
         // @ts-ignore
-        if (!(content && content.nodeType === 1))
-        {
+        if (!(content && content.nodeType === 1)) {
             const /**@type {Element} */ addElement = document.createElement("div");
             addElement.setAttribute("style", "height: 100%;width: 100%;");
             // @ts-ignore
@@ -62,14 +56,11 @@ const modifyFaceHolder = (() =>
         }
 
         const isPage = pageList.querySelector(`div[index="${index}"]`);
-        if (isPage)
-        {
+        if (isPage) {
             // @ts-ignore
             createPage(index, isPage, title, content);
-        } else
-        {
-            if (!initAddPageItem[index])
-            {
+        } else {
+            if (!initAddPageItem[index]) {
                 initAddPageItem[index] = [];
             }
             initAddPageItem[index].push([title, content]);
@@ -81,8 +72,7 @@ const modifyFaceHolder = (() =>
      * @param {string} index 
      * @param {*} page 
      */
-    function initCreatePage(index, page)
-    {
+    function initCreatePage(index, page) {
         const emojiPage = page.querySelector(".emojiPage");
         const emojiContent = page.querySelector(".emojiContent");
         const emojiPageItem = emojiPage.querySelectorAll("span");
@@ -91,39 +81,29 @@ const modifyFaceHolder = (() =>
         let electStyle = emojiPage.querySelector("span[style]").getAttribute("style");
 
         // emojiPageItem切换
-        emojiPage.addEventListener("click", event =>
-        {
-            if (event.target.classList.contains("faceHolderPageItem"))
-            {
-                emojiPage.querySelectorAll("span").forEach(item =>
-                {
+        emojiPage.addEventListener("click", event => {
+            if (event.target.classList.contains("faceHolderPageItem")) {
+                emojiPage.querySelectorAll("span").forEach(item => {
                     item.setAttribute("style", "");
                 });
                 event.target.setAttribute("style", electStyle);
 
-                emojiContent.querySelectorAll(":scope > div").forEach(item =>
-                {
+                emojiContent.querySelectorAll(":scope > div").forEach(item => {
                     const targetP = event.target.getAttribute("p");
                     const nowIndex = item.getAttribute("index");
-                    if (targetP == nowIndex)
-                    {
+                    if (targetP == nowIndex) {
                         item.setAttribute("style", pageTransitionON);
-                        setTimeout(() =>
-                        {
+                        setTimeout(() => {
                             item.setAttribute("style", pageDisplayBlock);
                         }, 250);
-                    } else if (targetP > nowIndex)
-                    {
+                    } else if (targetP > nowIndex) {
                         item.setAttribute("style", pageTransitionOFFRight);
-                        setTimeout(() =>
-                        {
+                        setTimeout(() => {
                             item.setAttribute("style", pageDisplayNoneRight);
                         }, 250);
-                    } else if (targetP < nowIndex)
-                    {
+                    } else if (targetP < nowIndex) {
                         item.setAttribute("style", pageTransitionOFFLeft);
-                        setTimeout(() =>
-                        {
+                        setTimeout(() => {
                             item.setAttribute("style", pageDisplayNoneLeft);
                         }, 250);
                     }
@@ -132,8 +112,7 @@ const modifyFaceHolder = (() =>
         });
 
         // 添加emojiPage
-        initAddPageItem[index].forEach((item, index) =>
-        {
+        initAddPageItem[index].forEach((item, index) => {
             // item
             const newItem = document.createElement("span");
             newItem.className = "faceHolderPageItem";
@@ -158,8 +137,7 @@ const modifyFaceHolder = (() =>
      * @param {string} title 
      * @param {Element} content 
      */
-    function createPage(index, page, title, content)
-    {
+    function createPage(index, page, title, content) {
         const emojiPage = page.querySelector(".emojiPage");
         const emojiContent = page.querySelector(".emojiContent");
         const emojiPageItem = emojiPage.querySelectorAll("span");
@@ -185,15 +163,12 @@ const modifyFaceHolder = (() =>
      * @param {number} eq faceHolderType项的行内eq值
      * @returns 
      */
-    function hiddenPageType(eq)
-    {
+    function hiddenPageType(eq) {
         const /**@type {HTMLElement} */ targetType = faceHolderType.querySelector(`span[eq="${eq}"]`);
-        if (targetType)
-        {
+        if (targetType) {
             targetType.style.display = "none";
             return true;
-        } else
-        {
+        } else {
             return null;
         }
     }
@@ -204,22 +179,17 @@ const modifyFaceHolder = (() =>
      * @param {number} p faceHolderPageItem项的行内p值
      * @returns 
      */
-    function hiddenPageItem(index, p)
-    {
+    function hiddenPageItem(index, p) {
         const /**@type {HTMLElement} */ targetPage = pageList.querySelector(`div[index="${index}"]`);
-        if (targetPage)
-        {
+        if (targetPage) {
             const /**@type {HTMLElement} */ targetItem = targetPage.querySelector(`.emojiPage>span[p="${p}"]`);
-            if (targetItem)
-            {
+            if (targetItem) {
                 targetItem.style.display = "none";
                 return true;
-            } else
-            {
+            } else {
                 return null;
             }
-        } else
-        {
+        } else {
             return null;
         }
     }
@@ -234,8 +204,7 @@ const modifyFaceHolder = (() =>
 /**
  * 创建插件配置页面及方法
  */
-const createConfigPage = (() =>
-{
+const createConfigPage = (() => {
     // 基础UI
     const pageBox = document.createElement("div");
     pageBox.setAttribute("style", "height: 100%;width: 100%;display: flex;flex-direction: row;background-color: rgb(49, 49, 54);color: rgba(255, 255, 245, 0.86);");
@@ -257,8 +226,7 @@ const createConfigPage = (() =>
     plugConfigBox.appendChild(plugConfigPageArr[0]);
 
     // devtest
-    function newElement(str)
-    {
+    function newElement(str) {
         const ele = document.createElement("div");
         ele.setAttribute("style", `height: 90%;width: 90%;background:#${str};margin:12px`);
         ele.textContent = str;
@@ -270,8 +238,7 @@ const createConfigPage = (() =>
      * @param {*} plugin 
      * @param {Element} [Element] 
      */
-    function addPage(plugin, Element)
-    {
+    function addPage(plugin, Element) {
         const plugItem = document.createElement("div");
         const plugListArr = plugList.querySelectorAll("div");
         const itemIndex = plugListArr.length.toString();
@@ -281,8 +248,7 @@ const createConfigPage = (() =>
         Element.setAttribute("index", itemIndex);
         plugConfigPageArr[itemIndex] = Element;
 
-        plugItem.addEventListener("click", () =>
-        {
+        plugItem.addEventListener("click", () => {
             switchConfigPage(itemIndex);
             console.log(plugin.name);
         });
@@ -293,12 +259,10 @@ const createConfigPage = (() =>
      * 切换配置页面
      * @param {number} target
      */
-    function switchConfigPage(target)
-    {
+    function switchConfigPage(target) {
         const controls = plugConfigBox.querySelector('div');
         const nowIndex = controls.getAttribute("index");
-        if (nowIndex != target)
-        {
+        if (nowIndex != target) {
             const targetDom = plugConfigPageArr[target];
             controls.remove();
             plugConfigPageArr[nowIndex] = controls;
@@ -311,8 +275,7 @@ const createConfigPage = (() =>
      * @param {*} plugin 
      * @returns 
      */
-    function createPlugContent(plugin)
-    {
+    function createPlugContent(plugin) {
         const plugConfigBox = document.createElement("div");
         plugConfigBox.setAttribute("style", "height: 100%;flex-grow: 1;display: flex;flex-direction: column;");
 
@@ -385,8 +348,7 @@ const createConfigPage = (() =>
      * @param {number} type 类型 0：true  1：info 2：warning
      * @returns {Element}
      */
-    function createTipsElement(text, type)
-    {
+    function createTipsElement(text, type) {
         const tips = document.createElement("div");
         if (type === 0) {
             tips.setAttribute("style", "background: rgba(59, 165, 94, .1);border-left: #3ba55e 4px solid;padding: 6px 12px;margin: 0 0 12px 0;");
@@ -433,12 +395,10 @@ const createConfigPage = (() =>
  * 生成16位随机英文+数字
  * @returns 
  */
-function generateRandomString()
-{
+function generateRandomString() {
     let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
-    for (let i = 0; i < 16; i++)
-    {
+    for (let i = 0; i < 16; i++) {
         let randomIndex = Math.floor(Math.random() * characters.length);
         result += characters[randomIndex];
     }
@@ -450,40 +410,31 @@ function generateRandomString()
  * @param {string} target 目标版本
  * @param {string} current 当前版本
  */
-function versionComparison(target, current)
-{
+function versionComparison(target, current) {
     const targetArr = target.split('.');
     const currentArr = current.split('.');
 
-    if (target.startsWith('^'))
-    {
+    if (target.startsWith('^')) {
 
-        if (currentArr[0] == targetArr[0].replace('^', '') && (currentArr[1] >= targetArr[1] || currentArr[2] >= targetArr[2]))
-        {
+        if (currentArr[0] == targetArr[0].replace('^', '') && (currentArr[1] >= targetArr[1] || currentArr[2] >= targetArr[2])) {
             return true;
         } else { return false; }
-    } else
-    {
-        if (currentArr[0] == targetArr[0] && currentArr[1] == targetArr[1] && currentArr[2] == targetArr[2])
-        {
+    } else {
+        if (currentArr[0] == targetArr[0] && currentArr[1] == targetArr[1] && currentArr[2] == targetArr[2]) {
             return true;
         } else { return false; }
     }
 }
 
 /** @class */
-class EventEmitter
-{
-    constructor()
-    {
+class EventEmitter {
+    constructor() {
         this.events = {};
     }
 
     /** @method on 仿event的on */
-    on(eventName, listener)
-    {
-        if (!this.events[eventName])
-        {
+    on(eventName, listener) {
+        if (!this.events[eventName]) {
             this.events[eventName] = [];
         }
 
@@ -491,20 +442,17 @@ class EventEmitter
     }
 
     /** @method emit 仿event的emit */
-    emit(eventName, ...args)
-    {
+    emit(eventName, ...args) {
         const eventListeners = this.events[eventName];
 
-        if (eventListeners)
-        {
+        if (eventListeners) {
             eventListeners.forEach(listener => listener.apply(null, args));
         }
     }
 }
 
 /** @class */
-export class REIFUU_Plugin
-{
+export class REIFUU_Plugin {
     /** @type { string } name - 插件名称 */
     name;
     /** @type { string } versions -  插件版本 */
@@ -530,15 +478,13 @@ export class REIFUU_Plugin
     pluginID;
 
     /** @method constructor*/
-    constructor()
-    {
+    constructor() {
         this.createConfigPage = createConfigPage;
         this.server.schemastery = Schema;
     }
 
     /** @method start 启动主要子插件 */
-    async pluginStart()
-    {
+    async pluginStart() {
         this.plugin.status = 'start';
 
         nowREIFUUPluginList[this.plugin.name] = this.plugin.versions;
@@ -551,8 +497,7 @@ export class REIFUU_Plugin
     }
 
     /** @method start 停止主要子插件 */
-    async pluginStop()
-    {
+    async pluginStop() {
         if (!this.plugin) { return; }
         this.plugin.status = 'stop';
         delete nowREIFUUPluginList[this.plugin.name];
@@ -563,8 +508,7 @@ export class REIFUU_Plugin
         if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
     }
 
-    async pluginRemove()
-    {
+    async pluginRemove() {
         if (!this.plugin) { return; }
         this.plugin.status = 'remove';
         delete nowREIFUUPluginList[this.plugin.name];
@@ -576,16 +520,14 @@ export class REIFUU_Plugin
         this.plugin = null;
     }
 
-    async pluginReload()
-    {
+    async pluginReload() {
         if (!this.plugin) { return; }
         this.plugin.status = 'reload';
         if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
         if (typeof this.plugin.start !== "undefined") { await this.plugin.start(); }
     }
 
-    async plugInit(plugin)
-    {
+    async plugInit(plugin) {
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
@@ -593,59 +535,53 @@ export class REIFUU_Plugin
         const pageContent = addPage.querySelector("#pageContent");
         createConfigPage.addPage(plugin, addPage);
 
-        if (plugin.depend)
-        {
+        if (plugin.depend) {
             /** @type { number } 0:通过依赖，1:缺少依赖*/
             let dependStatus = 0;
 
-            for (let key in plugin.depend)
-            {
+            for (let key in plugin.depend) {
                 const dependName = key;
                 const dependVersion = plugin.depend[dependName];
 
-                if (nowREIFUUPluginList[dependName])
-                {
+                if (nowREIFUUPluginList[dependName]) {
                     const temp = versionComparison(dependVersion, nowREIFUUPluginList[dependName]);
 
-                    if (!temp)
-                    {
+                    if (!temp) {
                         dependStatus = 1;
                         const text = `依赖项 【${key}】，版本【${nowREIFUUPluginList[dependName]}】验证失败，需要版本：【${dependVersion}】`;
                         // 这边是依赖的插件版本不对
                         pageContent.append(createConfigPage.createTipsElement(text, 2));
                     }
-                } else
-                {
+                } else {
                     dependStatus = 1;
                     const text = `插件【${plugin.name}】缺少依赖 【${key}】，版本：【${dependVersion}】`;
                     pageContent.append(createConfigPage.createTipsElement(text, 2));
                     // 这边是缺少依赖
                 }
             }
-            if (dependStatus === 0)
-            {
+            if (dependStatus === 0) {
                 plugin.pluginID = generateRandomString();
-                eventEmitter.on(plugin.pluginID, (status) =>
-                {
-                    if (status == 'stop')
-                    {
+                eventEmitter.on(plugin.pluginID, (status) => {
+                    if (status == 'stop') {
                         this.pluginStop();
-                    } else if (status == 'start')
-                    {
+                    } else if (status == 'start') {
                         this.pluginStart();
                     }
                 });
                 this.plugin = plugin;
                 this.pluginStart();
 
-            } else
-            {
-                return console.log(`插件【${plugin.name}】启动失败！`);
+            } else {
+                const text = `插件【${plugin.name}】启动失败！`;
+                console.log(text);
+                pageContent.append(createConfigPage.createTipsElement(text, 2));
+                return;
             }
-        } else
-        {
+        } else {
             plugin.pluginID = generateRandomString();
             this.plugin = plugin;
+            const text = `插件【${plugin.name}】启动成功！`;
+            pageContent.append(createConfigPage.createTipsElement(text, 0));
             this.pluginStart();
         }
     }
