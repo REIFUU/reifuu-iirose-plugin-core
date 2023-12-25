@@ -98,7 +98,9 @@ export class REIFUU_Plugin {
         this.createConfigPage = createConfigPage;
         this.server.schemastery = Schema;
         this.server.schemastery.button = (functionName) => {
-            return this.plugin[functionName]();
+            if (this.plugin[functionName]) {
+                this.plugin[functionName]();
+            }
         }
     }
 
