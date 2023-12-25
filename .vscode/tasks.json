@@ -1,0 +1,17 @@
+{
+    "tasks": [
+        {
+            "label": "auto build",
+            "type": "shell",
+            "command": "rollup --watch --config ./rollup.config.js",
+            "problemMatcher": [ ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        }
+    ]
+}
