@@ -15,7 +15,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
             e: this.server.schemastery.string().pattern(/^custom$/i),
             f: this.server.schemastery.array(Number),
             g: this.server.schemastery.array(String),
-            h: this.server.button().link(this.test)
+            h: this.server.schemastery.button().link(this.test)
         }
     };
 

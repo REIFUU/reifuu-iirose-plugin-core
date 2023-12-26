@@ -2,6 +2,12 @@ import Schema from 'schemastery';
 import md5 from 'md5';
 import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 
+Schema.button = () => {
+    return {
+        link: (func) => { return () => { return func(); }; }
+    };
+};
+
 window.Schema = Schema;
 
 /**
@@ -81,11 +87,6 @@ export class REIFUU_Plugin {
     /** 插件服务 */
     server = {
         schemastery: Schema,
-        button: () => {
-            return {
-                link: (func) => { return () => { return func(); }; }
-            };
-        }
     };
 
     /** @type { 'start' | 'stop' | 'reload' | 'error' | 'remove' } */
@@ -98,9 +99,10 @@ export class REIFUU_Plugin {
     /** @type {string} 插件id */
     pluginID;
 
+    createConfigPage = createConfigPage;
+    
     /** @method constructor*/
     constructor() {
-        this.createConfigPage = createConfigPage;
     }
 
     /** @method start 启动主要子插件 */

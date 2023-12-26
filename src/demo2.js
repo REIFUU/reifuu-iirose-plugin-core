@@ -6,7 +6,7 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
         core: '0.0.1'
     };
     config = {
-        a: this.server.schemastery.number().default(10).max(20).min(10),
+        a: this.server.schemastery.number().max(20).min(10),
         b: this.server.schemastery.string().default('嗨嗨嗨')
     };
 
