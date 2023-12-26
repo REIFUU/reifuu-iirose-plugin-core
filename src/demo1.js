@@ -15,14 +15,14 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
             e: this.server.schemastery.string().pattern(/^custom$/i),
             f: this.server.schemastery.array(Number),
             g: this.server.schemastery.array(String),
-            h: this.server.schemastery.button('test')
+            h: this.server.button().link(this.test)
         }
     };
 
     constructor() {
         super();
         this.plugInit(this);
-        
+
         // 插件进行初始化代码
         // 理论上插件允许多开，只要把变量定义在这个类里面就好了
 
@@ -39,7 +39,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
         /* code */
     }
 
-    test(){
-        console.log('button被点击')
+    test() {
+        console.log('button被点击');
     }
 };
