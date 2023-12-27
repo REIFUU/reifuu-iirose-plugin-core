@@ -4,7 +4,15 @@ import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 
 Schema.button = () => {
     return {
-        link: (func) => { return () => { return func(); }; }
+        type: "button",
+        link: (func) => {
+            function includeFun() {
+                return func();
+            }
+            includeFun.type = "button";
+
+            return includeFun;
+        }
     };
 };
 
@@ -100,7 +108,7 @@ export class REIFUU_Plugin {
     pluginID;
 
     createConfigPage = createConfigPage;
-    
+
     /** @method constructor*/
     constructor() {
     }
