@@ -1,8 +1,22 @@
-import Schemas from 'schemastery';
+import Schema from 'schemastery';
 import md5 from 'md5';
 import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 
-export const Schema = Schemas;
+Schema.button = () => {
+    return {
+        type: "button",
+        link: (func) => {
+            function includeFun() {
+                return func();
+            }
+            includeFun.type = "button";
+
+            return includeFun;
+        }
+    };
+};
+
+window.Schema = Schema;
 
 /**
  * 生成16位随机英文+数字 
@@ -12,8 +26,7 @@ export const Schema = Schemas;
 function generateRandomString() {
     let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
-    for (let i = 0; i < 16; i++)
-    {
+    for (let i = 0; i < 16; i++) {
         let randomIndex = Math.floor(Math.random() * characters.length);
         result += characters[randomIndex];
     }
@@ -27,40 +40,31 @@ function generateRandomString() {
  * @param {string} target 目标版本
  * @param {string} current 当前版本
  */
-function versionComparison(target, current)
-{
+function versionComparison(target, current) {
     const targetArr = target.split('.');
     const currentArr = current.split('.');
 
-    if (target.startsWith('^'))
-    {
+    if (target.startsWith('^')) {
 
-        if (currentArr[0] == targetArr[0].replace('^', '') && (currentArr[1] >= targetArr[1] || currentArr[2] >= targetArr[2]))
-        {
+        if (currentArr[0] == targetArr[0].replace('^', '') && (currentArr[1] >= targetArr[1] || currentArr[2] >= targetArr[2])) {
             return true;
         } else { return false; }
-    } else
-    {
-        if (currentArr[0] == targetArr[0] && currentArr[1] == targetArr[1] && currentArr[2] == targetArr[2])
-        {
+    } else {
+        if (currentArr[0] == targetArr[0] && currentArr[1] == targetArr[1] && currentArr[2] == targetArr[2]) {
             return true;
         } else { return false; }
     }
 }
 
 /** @class */
-class EventEmitter
-{
-    constructor()
-    {
+class EventEmitter {
+    constructor() {
         this.events = {};
     }
 
     /** @method on 仿event的on */
-    on(eventName, listener)
-    {
-        if (!this.events[eventName])
-        {
+    on(eventName, listener) {
+        if (!this.events[eventName]) {
             this.events[eventName] = [];
         }
 
@@ -68,20 +72,17 @@ class EventEmitter
     }
 
     /** @method emit 仿event的emit */
-    emit(eventName, ...args)
-    {
+    emit(eventName, ...args) {
         const eventListeners = this.events[eventName];
 
-        if (eventListeners)
-        {
+        if (eventListeners) {
             eventListeners.forEach(listener => listener.apply(null, args));
         }
     }
 }
 
 /** @class */
-export class REIFUU_Plugin
-{
+export class REIFUU_Plugin {
     /** @type { string } name - 插件名称 */
     name;
     /** @type { string } versions -  插件版本 */
@@ -93,7 +94,7 @@ export class REIFUU_Plugin
 
     /** 插件服务 */
     server = {
-        schemastery: Schema
+        schemastery: Schema,
     };
 
     /** @type { 'start' | 'stop' | 'reload' | 'error' | 'remove' } */
@@ -106,21 +107,14 @@ export class REIFUU_Plugin
     /** @type {string} 插件id */
     pluginID;
 
+    createConfigPage = createConfigPage;
+
     /** @method constructor*/
-    constructor()
-    {
-        this.createConfigPage = createConfigPage;
-        this.server.schemastery = Schema;
-        this.server.schemastery.button = (functionName) => {
-            if (this.plugin[functionName]) {
-                this.plugin[functionName]();
-            }
-        }
+    constructor() {
     }
 
     /** @method start 启动主要子插件 */
-    async pluginStart()
-    {
+    async pluginStart() {
         this.plugin.status = 'start';
 
         nowREIFUUPluginList[this.plugin.name] = this.plugin.versions;
@@ -133,8 +127,7 @@ export class REIFUU_Plugin
     }
 
     /** @method start 停止主要子插件 */
-    async pluginStop()
-    {
+    async pluginStop() {
         if (!this.plugin) { return; }
         this.plugin.status = 'stop';
         delete nowREIFUUPluginList[this.plugin.name];
@@ -145,8 +138,7 @@ export class REIFUU_Plugin
         if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
     }
 
-    async pluginRemove()
-    {
+    async pluginRemove() {
         if (!this.plugin) { return; }
         this.plugin.status = 'remove';
         delete nowREIFUUPluginList[this.plugin.name];
@@ -158,16 +150,14 @@ export class REIFUU_Plugin
         this.plugin = null;
     }
 
-    async pluginReload()
-    {
+    async pluginReload() {
         if (!this.plugin) { return; }
         this.plugin.status = 'reload';
         if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
         if (typeof this.plugin.start !== "undefined") { await this.plugin.start(); }
     }
 
-    async plugInit(plugin)
-    {
+    async plugInit(plugin) {
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
@@ -176,46 +166,36 @@ export class REIFUU_Plugin
         createConfigPage.addPage(plugin, addPage);
 
 
-
-        if (plugin.depend)
-        {
+        if (plugin.depend) {
             /** @type { number } 0:通过依赖，1:缺少依赖*/
             let dependStatus = 0;
 
-            for (let key in plugin.depend)
-            {
+            for (let key in plugin.depend) {
                 const dependName = key;
                 const dependVersion = plugin.depend[dependName];
 
-                if (nowREIFUUPluginList[dependName])
-                {
+                if (nowREIFUUPluginList[dependName]) {
                     const temp = versionComparison(dependVersion, nowREIFUUPluginList[dependName]);
 
-                    if (!temp)
-                    {
+                    if (!temp) {
                         dependStatus = 1;
                         const text = `依赖项 【${key}】，版本【${nowREIFUUPluginList[dependName]}】验证失败，需要版本：【${dependVersion}】`;
                         // 这边是依赖的插件版本不对
                         pageContent.append(createConfigPage.createTipsElement(text, 2));
                     }
-                } else
-                {
+                } else {
                     dependStatus = 1;
                     const text = `插件【${plugin.name}】缺少依赖 【${key}】，版本：【${dependVersion}】`;
                     pageContent.append(createConfigPage.createTipsElement(text, 2));
                     // 这边是缺少依赖
                 }
             }
-            if (dependStatus === 0)
-            {
+            if (dependStatus === 0) {
                 plugin.pluginID = generateRandomString();
-                eventEmitter.on(plugin.pluginID, (status) =>
-                {
-                    if (status == 'stop')
-                    {
+                eventEmitter.on(plugin.pluginID, (status) => {
+                    if (status == 'stop') {
                         this.pluginStop();
-                    } else if (status == 'start')
-                    {
+                    } else if (status == 'start') {
                         this.pluginStart();
                     }
                 });
@@ -223,11 +203,10 @@ export class REIFUU_Plugin
                 const text = `插件【${plugin.name}】启动成功！`;
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 0));
-                pageContent.append(createConfigPage.createConfigElement(plugin))
+                pageContent.append(createConfigPage.createConfigElement(plugin));
                 this.pluginStart();
 
-            } else
-            {
+            } else {
                 const text = `插件【${plugin.name}】启动失败！`;
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 2));
