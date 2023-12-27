@@ -1,51 +1,45 @@
-new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
-{
+new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
     name = '测试';
     versions = '0.0.1';
     depend = {
         core: '0.0.1'
     };
+    config = {
+        '主要配置': {
+            a: this.server.schemastery.boolean().default(true),
+            b: this.server.schemastery.boolean().default(false),
+            c: this.server.schemastery.string(),
+            d: this.server.schemastery.string().role('secret')
+        },
+        '次要配置': {
+            e: this.server.schemastery.string().pattern(/^custom$/i),
+            f: this.server.schemastery.array(Number),
+            g: this.server.schemastery.array(String),
+            h: this.server.schemastery.button('test')
+        }
+    };
 
-    constructor()
-    {
+    constructor() {
         super();
-        this.config = {
-            '主要配置': {
-                "数字测试": this.server.schemastery.number().default(10).max(20).min(10).description("测试数字构型1111111111111111111111111111111111111111111111111111111111iyugilyudgaiyufgidsgfigasdgyiufyuasgyifguygauiygdfyugauiuigfauiy"),
-                b: this.server.schemastery.string().default('嗨嗨嗨')
-            },
-            '次要配置': {
-                c: this.server.schemastery.array().default([1,2,3,4]),
-                d: this.server.schemastery.number().default(10).description('描述'),
-            }
-        };
         this.plugInit(this);
-        // 配置方式1
-        // this.config = {
-        //   '主要配置': {
-        //     a: this.server.schemastery.number().default(10).max(20).min(10),
-        //     b: this.server.schemastery.string().default('嗨嗨嗨')
-        //   },
-        //   '次要配置': {
-        //     c: this.server.schemastery.array(),
-        //     d: this.server.schemastery.number().default(10).description('描述'),
-        //   }
-        // };
+        
         // 插件进行初始化代码
         // 理论上插件允许多开，只要把变量定义在这个类里面就好了
 
         /* code */
     }
 
-    start()
-    {
+    start() {
         // 插件主代码
         /* code */
     }
 
-    stop()
-    {
+    stop() {
         // 插件消除影响代码
         /* code */
+    }
+
+    test(){
+        console.log('button被点击')
     }
 };
