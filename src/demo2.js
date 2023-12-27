@@ -5,27 +5,15 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
     depend = {
         core: '0.0.1'
     };
-
-    // 配置方式2
-    // config = {
-    //   a: this.server.schemastery.number().default(10).max(20).min(10),
-    //   b: this.server.schemastery.string().default('嗨嗨嗨')
-    // };
+    config = {
+        a: this.server.schemastery.number().default(10).max(20).min(10),
+        b: this.server.schemastery.string().default('嗨嗨嗨')
+    };
 
     constructor()
     {
         super();
-        this.config = {
-            a: this.server.schemastery.number().default(10).max(20).min(10),
-            b: this.server.schemastery.string().default('嗨嗨嗨')
-        };
         this.plugInit(this);
-        // 配置方式2
-        // this.config = {
-        //   a: this.server.schemastery.number().default(10).max(20).min(10),
-        //   b: this.server.schemastery.string().default('嗨嗨嗨')
-        // };
-
 
         // 插件进行初始化代码
         // 理论上插件允许多开，只要把变量定义在这个类里面就好了
