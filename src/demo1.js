@@ -6,16 +6,16 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
     };
     config = {
         '主要配置': {
-            a: this.server.schemastery.boolean().default(true),
-            b: this.server.schemastery.boolean().default(false),
-            c: this.server.schemastery.string(),
-            d: this.server.schemastery.string().role('secret')
+            a: this.server.schema.boolean().default(true),
+            b: this.server.schema.boolean().default(false),
+            c: this.server.schema.string(),
+            d: this.server.schema.string().role('secret')
         },
         '次要配置': {
-            e: this.server.schemastery.string().pattern(/^custom$/i),
-            f: this.server.schemastery.array(Number),
-            g: this.server.schemastery.array(String),
-            h: this.server.schemastery.button().link('test')
+            e: this.server.schema.string().pattern(/^custom$/i),
+            f: this.server.schema.array(Number),
+            g: this.server.schema.array(String),
+            h: this.server.schema.button().link('test')
         }
     };
 

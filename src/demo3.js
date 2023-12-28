@@ -7,8 +7,8 @@ new class REIFUU_Plugin_demo3 extends window.reifuuPluginCore.REIFUU_Plugin
     };
     config = {
         '主要配置': {
-            a: this.server.schemastery.number().default(10).max(20).min(10),
-            b: this.server.schemastery.string().default('嗨嗨嗨')
+            a: this.server.schema.number().default(10).max(20).min(10),
+            b: this.server.schema.string().default('嗨嗨嗨')
         }
     };
 

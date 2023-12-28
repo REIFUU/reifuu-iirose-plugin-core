@@ -115,7 +115,7 @@ export class REIFUU_Plugin {
 
     /** 插件服务 */
     server = {
-        schemastery: Schema,
+        schema: Schema,
     };
 
     /** 插件配置构型的数据 */
@@ -147,7 +147,7 @@ export class REIFUU_Plugin {
 
         REIFUUPluginListTemp[this.plugin.name].push(this.plugin.pluginID);
 
-        if (typeof this.plugin.start !== "undefined") { await this.plugin.start(); }
+        if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
     /** @method start 停止主要子插件 */
@@ -159,7 +159,7 @@ export class REIFUU_Plugin {
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
-        if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
+        if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
     }
 
     async pluginRemove() {
@@ -170,15 +170,15 @@ export class REIFUU_Plugin {
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
-        if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
+        if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         this.plugin = null;
     }
 
     async pluginReload() {
         if (!this.plugin) { return; }
         this.plugin.status = 'reload';
-        if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
-        if (typeof this.plugin.start !== "undefined") { await this.plugin.start(); }
+        if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
+        if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
     async plugInit(plugin) {
