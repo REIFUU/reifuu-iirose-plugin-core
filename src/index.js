@@ -157,9 +157,13 @@ export class REIFUU_Plugin {
 
         // 存储插件配置缓存
         const key = `reifuuTemp.${this.plugin.name}`;
-        const data = Array(localStorage.getItem(key));
-        if (data[0] === null && data.length == 1) { data = []; }
-        data.push(JSON.stringify(this.plugin.value));
+        let data = Array(localStorage.getItem(key));
+        console.log(data)
+        if (data[0] === '' && data.length == 1) {
+            data = []; 
+        }
+
+        data[data.length] = JSON.stringify(this.plugin.value);
 
         localStorage.setItem(key, data.toString());
     }
