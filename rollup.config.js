@@ -12,7 +12,8 @@ export default files.map(file => ({
   input: path.join(inputDir, file),
   output: {
     dir: outputDir,
-    format: 'esm'
+    format: 'umd',
+    name:'reifuuPluginCore'
   },
   plugins: [
     resolve(), // 解析第三方模块
