@@ -154,18 +154,6 @@ export class REIFUU_Plugin {
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
-
-        // 存储插件配置缓存
-        const key = `reifuuTemp.${this.plugin.name}`;
-        let data = Array(localStorage.getItem(key));
-        console.log(data)
-        if (data[0] === '' && data.length == 1) {
-            data = []; 
-        }
-
-        data[data.length] = JSON.stringify(this.plugin.value);
-
-        localStorage.setItem(key, data.toString());
     }
 
     async pluginRemove() {
@@ -194,6 +182,15 @@ export class REIFUU_Plugin {
         this.plugin.status = 'reload';
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
+    }
+
+    pluginConfigSave() {
+        // 存储插件配置缓存
+        const key = `reifuuTemp.${this.plugin.name}`;
+        let data = JSON.parse(localStorage.getItem(key));
+        data[this.plugin.pluginID] = this.plugin.value;
+
+        localStorage.setItem(key, JSON.stringify(data));
     }
 
     async plugInit(plugin) {
