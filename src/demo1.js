@@ -6,23 +6,26 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
     };
     config = {
         '主要配置': {
-            a: this.server.schemastery.boolean().default(true),
-            b: this.server.schemastery.boolean().default(false),
-            c: this.server.schemastery.string(),
-            d: this.server.schemastery.string().role('secret')
+            a: this.server.schema.boolean().default(true),
+            b: this.server.schema.boolean().default(false),
+            c: this.server.schema.string(),
+            d: this.server.schema.string().role('secret')
         },
         '次要配置': {
-            e: this.server.schemastery.string().pattern(/^custom$/i),
-            f: this.server.schemastery.array(Number),
-            g: this.server.schemastery.array(String),
-            h: this.server.schemastery.button('test')
+            e: this.server.schema.string().pattern(/^custom$/i),
+            f: this.server.schema.array(Number),
+            g: this.server.schema.array(String),
+            h: this.server.schema.button().link('test')
         }
     };
-
+    url = "https://www.baidu.com";
+    feedback = "https://www.baidu.com";
+    
     constructor() {
         super();
+
         this.plugInit(this);
-        
+
         // 插件进行初始化代码
         // 理论上插件允许多开，只要把变量定义在这个类里面就好了
 
@@ -39,7 +42,8 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
         /* code */
     }
 
-    test(){
-        console.log('button被点击')
+    test() {
+        console.log(this.value);
+        console.log('button被点击');
     }
 };

@@ -1,19 +1,17 @@
-new class REIFUU_Plugin_demo3 extends window.reifuuPluginCore.REIFUU_Plugin
-{
+new class REIFUU_Plugin_demo3 extends window.reifuuPluginCore.REIFUU_Plugin {
     name = '测试3';
     versions = '0.0.5';
     depend = {
-        core: '0.0.10'
+        core: '0.0.1'
     };
     config = {
-        '主要配置': {
-            a: this.server.schemastery.number().default(10).max(20).min(10),
-            b: this.server.schemastery.string().default('嗨嗨嗨')
+        "main": {
+            a: this.server.schema.number(),
+            b: this.server.schema.number()
         }
     };
 
-    constructor()
-    {
+    constructor() {
         super();
         this.plugInit(this);
 
@@ -23,15 +21,12 @@ new class REIFUU_Plugin_demo3 extends window.reifuuPluginCore.REIFUU_Plugin
         /* code */
     }
 
-    start()
-    {
-
+    start() {
         // 插件主代码
         /* code */
     }
 
-    stop()
-    {
+    stop() {
         // 插件消除影响代码
         /* code */
     }
