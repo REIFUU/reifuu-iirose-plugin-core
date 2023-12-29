@@ -88,19 +88,7 @@ class EventEmitter {
     }
 }
 
-// 缓存值
-// const reifuuVariable = (() => {
-//     let temp = {};
-
-//     function saveTemp(pluginId, key, number) {
-//         if (!temp.hasOwnProperty(pluginId)) { temp[pluginId] = {}; }
-//         temp[pluginId][key] = number;
-//         return temp[pluginId][key];
-//     }
-//     saveTemp.temp = temp[pluginId];
-
-//     return saveTemp;
-// })();
+const eventEmitter = new EventEmitter();
 
 /** @class */
 export class REIFUU_Plugin {
@@ -120,6 +108,7 @@ export class REIFUU_Plugin {
     /** 插件服务 */
     server = {
         schema: Schema,
+        event: eventEmitter
     };
 
     /** 插件配置构型的数据 */
@@ -138,15 +127,14 @@ export class REIFUU_Plugin {
     createConfigPage = createConfigPage;
 
     /** @method constructor*/
-    constructor() {
-    }
+    constructor() { }
 
     /** @method start 启动主要子插件 */
     async pluginStart() {
         if (!this.plugin) { return; }
-        
+
         this.plugin.status = 'start';
-        
+
         nowREIFUUPluginList[this.plugin.name] = this.plugin.versions;
 
         if (!REIFUUPluginListTemp[this.plugin.name]) { REIFUUPluginListTemp[this.plugin.name] = []; }
@@ -161,11 +149,19 @@ export class REIFUU_Plugin {
 
         this.plugin.status = 'stop';
         delete nowREIFUUPluginList[this.plugin.name];
-        
+
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
+
+        // 存储插件配置缓存
+        const key = `reifuuTemp.${this.plugin.name}`;
+        const data = Array(localStorage.getItem(key));
+        if (data[0] === null && data.length == 1) { data = []; }
+        data.push(JSON.stringify(this.plugin.value));
+
+        localStorage.setItem(key, data.toString());
     }
 
     async pluginRemove() {
@@ -178,6 +174,15 @@ export class REIFUU_Plugin {
 
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         this.plugin = null;
+
+        // 删除配置序列的最后一项
+        // 也许这个也不用写
+        // 不对，还是要的
+        const key = `reifuuTemp.${this.plugin.name}`;
+        const dataTemp = Array(localStorage.getItem(key));
+
+        dataTemp.pop();
+        localStorage.setItem(key, dataTemp.toString());
     }
 
     async pluginReload() {
@@ -264,7 +269,6 @@ export class REIFUU_Plugin {
     }
 }
 
-const eventEmitter = new EventEmitter();
 
 const nowREIFUUPluginList = {
     core: '0.0.1'
