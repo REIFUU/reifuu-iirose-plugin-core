@@ -5,11 +5,11 @@ import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 Schema.button = () => {
     return {
         type: "button",
-        link: (func) => {
-            function includeFun() {
-                return func();
-            }
-            includeFun.type = "button";
+        link: (funcName) => {
+            const includeFun = {
+                type: "button",
+                click: funcName
+            };
 
             return includeFun;
         }
@@ -26,7 +26,8 @@ window.Schema = Schema;
 function generateRandomString() {
     let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 16; i++)
+    {
         let randomIndex = Math.floor(Math.random() * characters.length);
         result += characters[randomIndex];
     }
@@ -44,13 +45,17 @@ function versionComparison(target, current) {
     const targetArr = target.split('.');
     const currentArr = current.split('.');
 
-    if (target.startsWith('^')) {
+    if (target.startsWith('^'))
+    {
 
-        if (currentArr[0] == targetArr[0].replace('^', '') && (currentArr[1] >= targetArr[1] || currentArr[2] >= targetArr[2])) {
+        if (currentArr[0] == targetArr[0].replace('^', '') && (currentArr[1] >= targetArr[1] || currentArr[2] >= targetArr[2]))
+        {
             return true;
         } else { return false; }
-    } else {
-        if (currentArr[0] == targetArr[0] && currentArr[1] == targetArr[1] && currentArr[2] == targetArr[2]) {
+    } else
+    {
+        if (currentArr[0] == targetArr[0] && currentArr[1] == targetArr[1] && currentArr[2] == targetArr[2])
+        {
             return true;
         } else { return false; }
     }
@@ -64,7 +69,8 @@ class EventEmitter {
 
     /** @method on 仿event的on */
     on(eventName, listener) {
-        if (!this.events[eventName]) {
+        if (!this.events[eventName])
+        {
             this.events[eventName] = [];
         }
 
@@ -75,11 +81,26 @@ class EventEmitter {
     emit(eventName, ...args) {
         const eventListeners = this.events[eventName];
 
-        if (eventListeners) {
+        if (eventListeners)
+        {
             eventListeners.forEach(listener => listener.apply(null, args));
         }
     }
 }
+
+// 缓存值
+// const reifuuVariable = (() => {
+//     let temp = {};
+
+//     function saveTemp(pluginId, key, number) {
+//         if (!temp.hasOwnProperty(pluginId)) { temp[pluginId] = {}; }
+//         temp[pluginId][key] = number;
+//         return temp[pluginId][key];
+//     }
+//     saveTemp.temp = temp[pluginId];
+
+//     return saveTemp;
+// })();
 
 /** @class */
 export class REIFUU_Plugin {
@@ -91,14 +112,21 @@ export class REIFUU_Plugin {
     depend;
     /** @type { JSON } 插件配置构型 */
     config;
+    /** @type { String } 插件详情网站地址 */
+    url;
+    /** @type { String } 插件反馈网站地址 */
+    feedback;
 
     /** 插件服务 */
     server = {
-        schemastery: Schema,
+        schema: Schema,
     };
 
+    /** 插件配置构型的数据 */
+    value = {};
+
     /** @type { 'start' | 'stop' | 'reload' | 'error' | 'remove' } */
-    status;
+    status = 'stop';
 
     /** @type { REIFUU_Plugin } 当前子类*/
     /** @private */
@@ -115,27 +143,29 @@ export class REIFUU_Plugin {
 
     /** @method start 启动主要子插件 */
     async pluginStart() {
+        if (!this.plugin) { return; }
+        
         this.plugin.status = 'start';
-
+        
         nowREIFUUPluginList[this.plugin.name] = this.plugin.versions;
 
         if (!REIFUUPluginListTemp[this.plugin.name]) { REIFUUPluginListTemp[this.plugin.name] = []; }
 
         REIFUUPluginListTemp[this.plugin.name].push(this.plugin.pluginID);
-
-        if (typeof this.plugin.start !== "undefined") { await this.plugin.start(); }
+        if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
     /** @method start 停止主要子插件 */
     async pluginStop() {
         if (!this.plugin) { return; }
+
         this.plugin.status = 'stop';
         delete nowREIFUUPluginList[this.plugin.name];
-
+        
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
-        if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
+        if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
     }
 
     async pluginRemove() {
@@ -146,15 +176,15 @@ export class REIFUU_Plugin {
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
-        if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
+        if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         this.plugin = null;
     }
 
     async pluginReload() {
         if (!this.plugin) { return; }
         this.plugin.status = 'reload';
-        if (typeof this.plugin.stop !== "undefined") { await this.plugin.stop(); }
-        if (typeof this.plugin.start !== "undefined") { await this.plugin.start(); }
+        if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
+        if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
     async plugInit(plugin) {
@@ -165,37 +195,44 @@ export class REIFUU_Plugin {
         const pageContent = addPage.querySelector("#pageContent");
         createConfigPage.addPage(plugin, addPage);
 
-
-        if (plugin.depend) {
+        if (plugin.depend)
+        {
             /** @type { number } 0:通过依赖，1:缺少依赖*/
             let dependStatus = 0;
 
-            for (let key in plugin.depend) {
+            for (let key in plugin.depend)
+            {
                 const dependName = key;
                 const dependVersion = plugin.depend[dependName];
 
-                if (nowREIFUUPluginList[dependName]) {
+                if (nowREIFUUPluginList[dependName])
+                {
                     const temp = versionComparison(dependVersion, nowREIFUUPluginList[dependName]);
 
-                    if (!temp) {
+                    if (!temp)
+                    {
                         dependStatus = 1;
                         const text = `依赖项 【${key}】，版本【${nowREIFUUPluginList[dependName]}】验证失败，需要版本：【${dependVersion}】`;
                         // 这边是依赖的插件版本不对
                         pageContent.append(createConfigPage.createTipsElement(text, 2));
                     }
-                } else {
+                } else
+                {
                     dependStatus = 1;
                     const text = `插件【${plugin.name}】缺少依赖 【${key}】，版本：【${dependVersion}】`;
                     pageContent.append(createConfigPage.createTipsElement(text, 2));
                     // 这边是缺少依赖
                 }
             }
-            if (dependStatus === 0) {
+            if (dependStatus === 0)
+            {
                 plugin.pluginID = generateRandomString();
                 eventEmitter.on(plugin.pluginID, (status) => {
-                    if (status == 'stop') {
+                    if (status == 'stop')
+                    {
                         this.pluginStop();
-                    } else if (status == 'start') {
+                    } else if (status == 'start')
+                    {
                         this.pluginStart();
                     }
                 });
@@ -204,15 +241,17 @@ export class REIFUU_Plugin {
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 0));
                 pageContent.append(createConfigPage.createConfigElement(plugin));
-                this.pluginStart();
+                // this.pluginStart();
 
-            } else {
+            } else
+            {
                 const text = `插件【${plugin.name}】启动失败！`;
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 2));
                 return;
             }
-        } else {
+        } else
+        {
             plugin.pluginID = generateRandomString();
             this.plugin = plugin;
             const text = `插件【${plugin.name}】启动成功！`;
@@ -220,7 +259,7 @@ export class REIFUU_Plugin {
             // 配置构型生成
             pageContent.append(createConfigPage.createConfigElement(text));
 
-            this.pluginStart();
+            // this.pluginStart();
         }
     }
 }

@@ -14,16 +14,18 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
             e: this.server.schemastery.number().default(10)
         },
         '次要配置': {
-            e: this.server.schemastery.string().pattern(/^custom$/i),
-            f: this.server.schemastery.array(Number),
-            g: this.server.schemastery.array(String),
-            h: this.server.schemastery.button().link(this.test)
+            e: this.server.schema.string().pattern(/^custom$/i),
+            f: this.server.schema.array(Number),
+            g: this.server.schema.array(String),
+            h: this.server.schema.button().link('test')
         }
     };
-
-    constructor()
-    {
+    url = "https://www.baidu.com";
+    feedback = "https://www.baidu.com";
+    
+    constructor() {
         super();
+
         this.plugInit(this);
 
         // 插件进行初始化代码
@@ -49,8 +51,8 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
         /* code */
     }
 
-    test()
-    {
+    test() {
+        console.log(this.value);
         console.log('button被点击');
     }
 };
