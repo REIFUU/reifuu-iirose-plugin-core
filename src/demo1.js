@@ -18,7 +18,9 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin {
             h: this.server.schema.button().link('test')
         }
     };
-
+    url = "https://www.baidu.com";
+    feedback = "https://www.baidu.com";
+    
     constructor() {
         super();
 

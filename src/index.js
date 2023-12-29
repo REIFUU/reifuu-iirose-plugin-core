@@ -112,6 +112,10 @@ export class REIFUU_Plugin {
     depend;
     /** @type { JSON } 插件配置构型 */
     config;
+    /** @type { String } 插件详情网站地址 */
+    url;
+    /** @type { String } 插件反馈网站地址 */
+    feedback;
 
     /** 插件服务 */
     server = {
@@ -122,7 +126,7 @@ export class REIFUU_Plugin {
     value = {};
 
     /** @type { 'start' | 'stop' | 'reload' | 'error' | 'remove' } */
-    status;
+    status = 'stop';
 
     /** @type { REIFUU_Plugin } 当前子类*/
     /** @private */
@@ -139,23 +143,25 @@ export class REIFUU_Plugin {
 
     /** @method start 启动主要子插件 */
     async pluginStart() {
+        if (!this.plugin) { return; }
+        
         this.plugin.status = 'start';
-
+        
         nowREIFUUPluginList[this.plugin.name] = this.plugin.versions;
 
         if (!REIFUUPluginListTemp[this.plugin.name]) { REIFUUPluginListTemp[this.plugin.name] = []; }
 
         REIFUUPluginListTemp[this.plugin.name].push(this.plugin.pluginID);
-
         if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
     /** @method start 停止主要子插件 */
     async pluginStop() {
         if (!this.plugin) { return; }
+
         this.plugin.status = 'stop';
         delete nowREIFUUPluginList[this.plugin.name];
-
+        
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
@@ -188,7 +194,6 @@ export class REIFUU_Plugin {
         const addPage = createConfigPage.createPlugContent(plugin);
         const pageContent = addPage.querySelector("#pageContent");
         createConfigPage.addPage(plugin, addPage);
-
 
         if (plugin.depend)
         {
@@ -236,7 +241,7 @@ export class REIFUU_Plugin {
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 0));
                 pageContent.append(createConfigPage.createConfigElement(plugin));
-                this.pluginStart();
+                // this.pluginStart();
 
             } else
             {
@@ -254,7 +259,7 @@ export class REIFUU_Plugin {
             // 配置构型生成
             pageContent.append(createConfigPage.createConfigElement(text));
 
-            this.pluginStart();
+            // this.pluginStart();
         }
     }
 }
