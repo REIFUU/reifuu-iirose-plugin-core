@@ -2,13 +2,23 @@
 
 # 简介
 
+项目地址：https://github.com/REIFUU/reifuu-iirose-plugin-core
+
+```jsx
+// 下载后，在根目录执行
+npm install
+
+// 并且全局下载rollup
+npm install rollup -g
+```
+
 这是一个含有插件依赖检测，快速创建插件交互界面以及配置界面等功能的蔷薇插件开发工具
 
-![Untitled](Plugin-core%2037fbf83d97834172954b1088918caa05/Untitled.png)
+![Untitled](doc/Untitled.png)
 
-![Untitled](Plugin-core%2037fbf83d97834172954b1088918caa05/Untitled%201.png)
+![Untitled](doc/Untitled%201.png)
 
-![Untitled](Plugin-core%2037fbf83d97834172954b1088918caa05/Untitled%202.png)
+![Untitled](doc/Untitled%202.png)
 
 # 插件模板
 
@@ -185,9 +195,9 @@ new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin
 
 运行结果：
 
-![Untitled](Plugin-core%2037fbf83d97834172954b1088918caa05/Untitled%203.png)
+![Untitled](doc/Untitled%203.png)
 
-![Untitled](Plugin-core%2037fbf83d97834172954b1088918caa05/Untitled%204.png)
+![Untitled](doc/Untitled%204.png)
 
 ## 配置构型：层级
 
@@ -209,7 +219,7 @@ new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin
 
 执行结果：
 
-![Untitled](Plugin-core%2037fbf83d97834172954b1088918caa05/Untitled%205.png)
+![Untitled](doc/Untitled%205.png)
 
 ```jsx
 config = {
@@ -222,7 +232,7 @@ config = {
 
 执行结果：
 
-![Untitled](Plugin-core%2037fbf83d97834172954b1088918caa05/Untitled%206.png)
+![Untitled](doc/Untitled%206.png)
 
 ## 配置构型：数字
 
@@ -380,4 +390,3 @@ this.server.schema.number().min(1).max(10).default(3).description("这里需要�
 1. 新增创建自定义界面方法
 2. 新增选择选项方法
 3. 新增新建类方法
-4. 把.on.emit塞到类里面
