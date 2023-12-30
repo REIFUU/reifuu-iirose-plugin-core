@@ -7,11 +7,11 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
     };
     config = {
         '主要配置': {
-            a: this.server.schemastery.boolean().default(true).description("tesuhckchkcjbhcjbcjbhsjhsjgsfjfsj"),
-            b: this.server.schemastery.boolean().default(false),
-            c: this.server.schemastery.string(),
-            d: this.server.schemastery.string().role('secret'),
-            e: this.server.schemastery.number().default(10)
+            a: this.server.schema.boolean().default(true).description("tesuhckchkcjbhcjbcjbhsjhsjgsfjfsj"),
+            b: this.server.schema.boolean().default(false),
+            c: this.server.schema.string(),
+            d: this.server.schema.string().role('secret'),
+            e: this.server.schema.number().default(10)
         },
         '次要配置': {
             e: this.server.schema.string().pattern(/^custom$/i),
