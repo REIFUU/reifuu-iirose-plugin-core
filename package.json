@@ -4,7 +4,8 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "md5": "^2.3.0",
     "rollup": "^4.9.1",
-    "schemastery": "^3.14.2"
+    "schemastery": "^3.14.2",
+    "semver": "^7.5.4"
   },
   "type": "module"
 }
