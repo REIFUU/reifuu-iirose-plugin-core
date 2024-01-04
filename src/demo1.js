@@ -15,7 +15,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
             // d: this.server.schema.string().role('secret')
         },
         '次要配置': {
-            e: this.server.schema.string().pattern(/^custom$/i),
+            e: this.server.schema.string(),
             f: this.server.schema.array(Number).default([1, 2, 3, 4, 5]),
             g: this.server.schema.array(String).default(["12", "34"]),
             h: this.server.schema.button().link('test')
