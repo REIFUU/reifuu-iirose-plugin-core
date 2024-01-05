@@ -1,5 +1,3 @@
-import { number, string } from "schemastery";
-
 new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
 {
     name = '测试';
