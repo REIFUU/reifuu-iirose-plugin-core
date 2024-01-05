@@ -1,6 +1,7 @@
 import Schema from 'schemastery';
 import md5 from 'md5';
 import semver from 'semver';
+import EventEmitter from "events";
 import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 
 Schema.button = () => {
@@ -38,31 +39,31 @@ function generateRandomString() {
 }
 
 /** @class */
-class EventEmitter {
-    constructor() {
-        this.events = {};
-    }
+// class EventEmitter {
+//     constructor() {
+//         this.events = {};
+//     }
 
-    /** @method on 仿event的on */
-    on(eventName, listener) {
-        if (!this.events[eventName])
-        {
-            this.events[eventName] = [];
-        }
+//     /** @method on 仿event的on */
+//     on(eventName, listener) {
+//         if (!this.events[eventName])
+//         {
+//             this.events[eventName] = [];
+//         }
 
-        this.events[eventName].push(listener);
-    }
+//         this.events[eventName].push(listener);
+//     }
 
-    /** @method emit 仿event的emit */
-    emit(eventName, ...args) {
-        const eventListeners = this.events[eventName];
+//     /** @method emit 仿event的emit */
+//     emit(eventName, ...args) {
+//         const eventListeners = this.events[eventName];
 
-        if (eventListeners)
-        {
-            eventListeners.forEach(listener => listener.apply(null, args));
-        }
-    }
-}
+//         if (eventListeners)
+//         {
+//             eventListeners.forEach(listener => listener.apply(null, args));
+//         }
+//     }
+// }
 
 const eventEmitter = new EventEmitter();
 
