@@ -3,10 +3,12 @@ import md5 from 'md5';
 import semver from 'semver';
 import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
 
-Schema.button = () => {
+Schema.button = () =>
+{
     return {
         type: "button",
-        link: (funcName) => {
+        link: (funcName) =>
+        {
             const includeFun = {
                 type: "button",
                 click: funcName
@@ -14,7 +16,7 @@ Schema.button = () => {
 
             return includeFun;
         }
-    };
+    };    
 };
 
 window.Schema = Schema;
@@ -24,7 +26,8 @@ window.Schema = Schema;
  * @returns 
  */
 // TODO:优化唯一性生成
-function generateRandomString() {
+function generateRandomString()
+{
     let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
     for (let i = 0; i < 16; i++)
@@ -38,13 +41,16 @@ function generateRandomString() {
 }
 
 /** @class */
-class EventEmitter {
-    constructor() {
+class EventEmitter
+{
+    constructor()
+    {
         this.events = {};
     }
 
     /** @method on 仿event的on */
-    on(eventName, listener) {
+    on(eventName, listener)
+    {
         if (!this.events[eventName])
         {
             this.events[eventName] = [];
@@ -54,7 +60,8 @@ class EventEmitter {
     }
 
     /** @method emit 仿event的emit */
-    emit(eventName, ...args) {
+    emit(eventName, ...args)
+    {
         const eventListeners = this.events[eventName];
 
         if (eventListeners)
@@ -67,7 +74,8 @@ class EventEmitter {
 const eventEmitter = new EventEmitter();
 
 /** @class */
-export class REIFUU_Plugin {
+export class REIFUU_Plugin
+{
     /** @type { string } name - 插件名称 */
     name;
     /** @type { string } versions -  插件版本 */
@@ -106,7 +114,8 @@ export class REIFUU_Plugin {
     constructor() { }
 
     /** @method start 启动主要子插件 */
-    async pluginStart() {
+    async pluginStart()
+    {
         if (!this.plugin) { return; }
 
         this.plugin.status = 'start';
@@ -120,7 +129,8 @@ export class REIFUU_Plugin {
     }
 
     /** @method start 停止主要子插件 */
-    async pluginStop() {
+    async pluginStop()
+    {
         if (!this.plugin) { return; }
 
         this.plugin.status = 'stop';
@@ -133,7 +143,8 @@ export class REIFUU_Plugin {
         this.pluginConfigSave();
     }
 
-    async pluginRemove() {
+    async pluginRemove()
+    {
         if (!this.plugin) { return; }
         this.plugin.status = 'remove';
         delete nowREIFUUPluginList[this.plugin.name];
@@ -154,14 +165,16 @@ export class REIFUU_Plugin {
         localStorage.setItem(key, dataTemp.toString());
     }
 
-    async pluginReload() {
+    async pluginReload()
+    {
         if (!this.plugin) { return; }
         this.plugin.status = 'reload';
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
-    pluginConfigSave() {
+    pluginConfigSave()
+    {
         // 存储插件配置缓存
         const key = `reifuuTemp.${this.plugin.name}`;
         let data = JSON.parse(localStorage.getItem(key));
@@ -170,7 +183,8 @@ export class REIFUU_Plugin {
         localStorage.setItem(key, JSON.stringify(data));
     }
 
-    async plugInit(plugin) {
+    async plugInit(plugin)
+    {
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
@@ -211,7 +225,8 @@ export class REIFUU_Plugin {
             if (dependStatus === 0)
             {
                 plugin.pluginID = generateRandomString();
-                eventEmitter.on(plugin.pluginID, (status) => {
+                eventEmitter.on(plugin.pluginID, (status) =>
+                {
                     if (status == 'stop')
                     {
                         this.pluginStop();
