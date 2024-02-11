@@ -2,7 +2,8 @@ import Schema from 'schemastery';
 import md5 from 'md5';
 import semver from 'semver';
 import EventEmitter from "events";
-import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
+import { createConfigPage } from '../lib/createUI.js';
+import { inputHolder } from "../lib/inputHolder.js";
 
 Schema.button = () =>
 {
@@ -17,7 +18,7 @@ Schema.button = () =>
 
             return includeFun;
         }
-    };    
+    };
 };
 
 window.Schema = Schema;
@@ -89,7 +90,8 @@ export class REIFUU_Plugin
     /** 插件服务 */
     server = {
         schema: Schema,
-        event: eventEmitter
+        event: eventEmitter,
+        inputHolder: inputHolder
     };
 
     /** 插件配置构型的数据 */
@@ -104,8 +106,6 @@ export class REIFUU_Plugin
 
     /** @type {string} 插件id */
     pluginID;
-
-    createConfigPage = createConfigPage;
 
     /** @method constructor*/
     constructor() { }
