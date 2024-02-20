@@ -110,12 +110,12 @@ export class REIFUU_Plugin {
     createConfigPage = createConfigPage;
 
     /** @method constructor*/
-    constructor() { this.corx = corxList; }
+    constructor() {
+        this.corx = corxList;
+    }
 
     /** @method start 启动主要子插件 */
     async pluginStart() {
-        console.log('aaaa');
-
         if (!this.plugin) { return; }
 
         this.plugin.status = 'start';
@@ -179,6 +179,7 @@ export class REIFUU_Plugin {
         // 存储插件配置缓存
         const key = `reifuuTemp.${this.plugin.name}`;
         let data = JSON.parse(localStorage.getItem(key));
+        
         data[this.plugin.pluginID] = this.plugin.value;
         data[this.plugin.pluginID].ReifuuPluginStatus = this.plugin.status;
 
