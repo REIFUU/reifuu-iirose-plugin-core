@@ -179,7 +179,7 @@ export class REIFUU_Plugin {
         // 存储插件配置缓存
         const key = `reifuuTemp.${this.plugin.name}`;
         let data = JSON.parse(localStorage.getItem(key));
-        
+
         data[this.plugin.pluginID] = this.plugin.value;
         data[this.plugin.pluginID].ReifuuPluginStatus = this.plugin.status;
 
@@ -236,11 +236,12 @@ export class REIFUU_Plugin {
                         this.pluginStart();
                     }
                 });
-                this.plugin = plugin;
                 const text = `插件【${plugin.name}】启动成功！`;
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 0));
                 pageContent.append(createConfigPage.createConfigElement(plugin));
+                this.plugin = plugin;
+
                 // this.pluginStart();
 
             } else
@@ -253,14 +254,23 @@ export class REIFUU_Plugin {
         } else
         {
             plugin.pluginID = generateRandomString();
-            this.plugin = plugin;
+
             const text = `插件【${plugin.name}】启动成功！`;
             console.log(text);// 这句
             // 配置构型生成
             pageContent.append(createConfigPage.createConfigElement(text));
+            this.plugin = plugin;
 
             // this.pluginStart();
         }
+
+        // setInterval(()=>{
+        //     console.log('b', this.plugin.value)
+        // },10000)
+
+        // window.onunload = function () {
+        //     this.pluginConfigSave();
+        // };
     }
 }
 
