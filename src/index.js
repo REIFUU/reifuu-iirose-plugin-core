@@ -65,7 +65,10 @@ function generateRandomString() {
 //     }
 // }
 
+
+
 const eventEmitter = new EventEmitter();
+const corxList = {};
 
 /** @class */
 export class REIFUU_Plugin {
@@ -83,10 +86,13 @@ export class REIFUU_Plugin {
     feedback;
 
     /** 插件服务 */
-    server = {
+    ctx = {
         schema: Schema,
         event: eventEmitter
     };
+
+    // 插件共享空间
+    corx = {};
 
     /** 插件配置构型的数据 */
     value = {};
@@ -104,7 +110,7 @@ export class REIFUU_Plugin {
     createConfigPage = createConfigPage;
 
     /** @method constructor*/
-    constructor() { }
+    constructor() { corx = corxList; }
 
     /** @method start 启动主要子插件 */
     async pluginStart() {
@@ -118,6 +124,7 @@ export class REIFUU_Plugin {
 
         REIFUUPluginListTemp[this.plugin.name].push(this.plugin.pluginID);
         if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
+        if (typeof this.plugin.server !== "undefined") { corx[this.plugin.serverName] = this.plugin.server; }
     }
 
     /** @method start 停止主要子插件 */
@@ -130,8 +137,10 @@ export class REIFUU_Plugin {
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
+        if (typeof this.plugin.server !== "undefined") { delete corx[this.plugin.serverName]; }
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         this.pluginConfigSave();
+
     }
 
     async pluginRemove() {
@@ -142,6 +151,7 @@ export class REIFUU_Plugin {
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
+        if (typeof this.plugin.server !== "undefined") { delete corx[this.plugin.serverName]; }
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         this.plugin = null;
 

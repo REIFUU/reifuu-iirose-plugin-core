@@ -9,8 +9,8 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
     };
 
     config = {
-        a: this.server.schema.number().max(20).min(10),
-        b: this.server.schema.string().default('嗨嗨嗨')
+        a: this.ctx.schema.number().max(20).min(10),
+        b: this.ctx.schema.string().default('嗨嗨嗨')
     };
 
     constructor()
