@@ -271,6 +271,7 @@ export class REIFUU_Plugin {
         // window.onunload = function () {
         //     this.pluginConfigSave();
         // };
+        this.pluginConfigSave();
     }
 }
 
