@@ -1,5 +1,3 @@
-import { inputHolder } from "../lib/inputHolder.js";
-
 new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
 {
     name = 'at补全';
@@ -7,6 +5,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
     depend = {
         core: '0.0.1'
     };
+    
     config = {
         // '主要配置': {
         //     // a: this.server.schema.boolean().default(true),
@@ -30,9 +29,9 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
 
         this.plugInit(this);
 
-        inputHolder.addTrigger("@", () =>
+        this.server.inputHolder.addTrigger("/@", () =>
         {
-            inputHolder.createinputHolder(this.getNowMatchUser(inputHolder.triggerContent[2]));
+            this.server.inputHolder.createinputHolder(this.getNowMatchUser(this.server.inputHolder.triggerContent[2]));
 
 
         });
@@ -81,7 +80,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
                             "content": "@" + userJson[item][2],
                             "callback": () =>
                             {
-                                inputHolder.moveInput.value = `${inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${inputHolder.triggerContent[3]}`;
+                                this.server.inputHolder.moveInput.value = `${this.server.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.server.inputHolder.triggerContent[3]}`;
                             }
                         });
                     }
@@ -92,8 +91,8 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
                         "callback": () =>
                         {
                             const textSizeMeasurer = document.getElementById('textSizeMeasurer');
-                            inputHolder.moveInput.value = `${inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${inputHolder.triggerContent[3]}`;
-                            textSizeMeasurer.innerHTML = `${inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${inputHolder.triggerContent[3]}`;
+                            this.server.inputHolder.moveInput.value = `${this.server.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.server.inputHolder.triggerContent[3]}`;
+                            textSizeMeasurer.innerHTML = `${this.server.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.server.inputHolder.triggerContent[3]}`;
 
                             window['moveinputBubble'].style.width = textSizeMeasurer.clientWidth + "px";
 
