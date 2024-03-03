@@ -17,4 +17,6 @@ config.ini
 package-lock.json
 *.rar
 
-./Tampermonkey.js
+Tampermonkey.js
+
+yarn.lock
