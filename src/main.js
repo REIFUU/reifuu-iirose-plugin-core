@@ -319,23 +319,32 @@ new class loader extends REIFUU_Plugin
 
     jsUrlList = [];
 
-    start()
+    // 添加js
+    addJs(url) 
     {
         const insideDoc = getInsideDoc();
+        const jsDoc = document.createElement('script');
+        jsDoc.src = url;
+        jsDoc.id = md5(url);
+
+        insideDoc.head.append(jsDoc);
+    };
+
+    // 删除js
+    delJs(url)
+    {
+        const insideDoc = getInsideDoc();
+        const rmDom = insideDoc.getElementById(md5(url));
+        rmDom.remove();
+    }
+
+    start()
+    {
         const list = this.value.url;
-
-        // 添加js
-        const addJs = (url) =>
-        {
-            const jsDoc = document.createElement('script');
-            jsDoc.src = url;
-
-            insideDoc.head.append(jsDoc);
-        };
 
         list.forEach(element =>
         {
-            addJs(element);
+            this.addJs(element);
         });
         this.jsUrlList = list;
     }
@@ -344,8 +353,47 @@ new class loader extends REIFUU_Plugin
 
     arrayConfigChange(title, type)
     {
-        const newlist = this.value.url
-        const oldList = this.jsUrlList
-        
+        const newlist = this.value.url;
+        const oldList = this.jsUrlList;
+
+        // arr1:old，arr2:new
+        function compareArrays(arr1, arr2)
+        {
+            const changes = [];
+
+            // 检查arr1中是否有被修改或删除的元素
+            for (let i = 0; i < arr1.length; i++)
+            {
+                const indexInArr2 = arr2.indexOf(arr1[i]);
+
+                if (indexInArr2 === -1)
+                {
+                    // 元素在arr1中存在但在arr2中不存在，即删除了
+                    changes.push({ type: 'delete', value: arr1[i] });
+                }
+            }
+
+            // 检查arr2中是否有新增的元素
+            for (let i = 0; i < arr2.length; i++)
+            {
+                const indexInArr1 = arr1.indexOf(arr2[i]);
+
+                if (indexInArr1 === -1)
+                {
+                    // 元素在arr2中存在但在arr1中不存在，即新增了
+                    changes.push({ type: 'add', value: arr2[i] });
+                }
+            }
+
+            return changes;
+        }
+
+        const differences = compareArrays(oldList, newlist);
+        differences.forEach((e) =>
+        {
+            const { changeType, changeValue } = e;
+            if (changeType == 'delete') { this.delJs(changeValue); }
+            if (changeType == 'add') { this.addJs(changeValue); }
+        });
     }
 };
