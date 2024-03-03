@@ -6,8 +6,8 @@ new class REIFUU_Plugin_demo3 extends window.reifuuPluginCore.REIFUU_Plugin {
     };
     config = {
         "main": {
-            a: this.server.schema.number(),
-            b: this.server.schema.number()
+            a: this.ctx.schema.number(),
+            b: this.ctx.schema.number()
         }
     };
 

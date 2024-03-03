@@ -56,6 +56,10 @@ new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
 
 	// 插件停止时清除影响函数
 	stop() { }
+
+	// 向其他插件开放此服务，有此方法时，也需要有serverName属性来定义服务名称
+	server() {}
+	serverName = ''
 };
 ```
 
@@ -98,6 +102,27 @@ new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
 作用：配置构型的返回值
 
 是否必填：否，且在插件类中使用this.value即可调用
+
+### REIFUU_Plugin.corx
+
+作用：此属性存储其他插件的共享空间
+
+是否必填：否，在插件类下可以通过this.corx.<serverName>调用corx下的方法
+
+### REIFUU_Plugin.serverName
+
+作用：此属性为本插件开放的服务名称，当server方法存在的时候子插件必须拥有此属性
+
+是否必填：否
+
+
+### REIFUU_Plugin.server
+
+作用：此成员函数内的内容将赋予给corx，在插件类下可以通过this.corx.<serverName>调用corx下的方法
+
+格式：Any
+
+是否必填：否
 
 ### REIFUU_Plugin.constructor()
 

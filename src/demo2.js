@@ -10,6 +10,7 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
 
     config = {};
 
+
     constructor()
     {
         super();
