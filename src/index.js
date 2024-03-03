@@ -69,7 +69,10 @@ function generateRandomString()
 //     }
 // }
 
+
+
 const eventEmitter = new EventEmitter();
+const corxList = {};
 
 /** @class */
 export class REIFUU_Plugin
@@ -88,11 +91,14 @@ export class REIFUU_Plugin
     feedback;
 
     /** 插件服务 */
-    server = {
+    ctx = {
         schema: Schema,
         event: eventEmitter,
         inputHolder: inputHolder
     };
+
+    // 插件共享空间
+    corx = {};
 
     /** 插件配置构型的数据 */
     value = {};
@@ -108,7 +114,9 @@ export class REIFUU_Plugin
     pluginID;
 
     /** @method constructor*/
-    constructor() { }
+    constructor() {
+        this.corx = corxList;
+    }
 
     /** @method start 启动主要子插件 */
     async pluginStart()
@@ -123,6 +131,8 @@ export class REIFUU_Plugin
 
         REIFUUPluginListTemp[this.plugin.name].push(this.plugin.pluginID);
         if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
+        if (typeof this.plugin.server !== "undefined") { this.corx[this.plugin.serverName] = this.plugin.server; }
+        this.pluginConfigSave();
     }
 
     /** @method start 停止主要子插件 */
@@ -136,8 +146,10 @@ export class REIFUU_Plugin
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
+        if (typeof this.plugin.server !== "undefined") { delete this.corx[this.plugin.serverName]; delete corxList[this.plugin.serverName]; }
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         this.pluginConfigSave();
+
     }
 
     async pluginRemove()
@@ -149,6 +161,7 @@ export class REIFUU_Plugin
         const index = REIFUUPluginListTemp[this.plugin.name].indexOf(this.plugin.pluginID);
         if (index > 0) { REIFUUPluginListTemp[this.plugin.name].splice(index, 1); }
 
+        if (typeof this.plugin.server !== "undefined") { delete this.corx[this.plugin.serverName]; delete corxList[this.plugin.serverName]; }
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         this.plugin = null;
 
@@ -175,7 +188,9 @@ export class REIFUU_Plugin
         // 存储插件配置缓存
         const key = `reifuuTemp.${this.plugin.name}`;
         let data = JSON.parse(localStorage.getItem(key));
+
         data[this.plugin.pluginID] = this.plugin.value;
+        data[this.plugin.pluginID].ReifuuPluginStatus = this.plugin.status;
 
         localStorage.setItem(key, JSON.stringify(data));
     }
@@ -232,11 +247,12 @@ export class REIFUU_Plugin
                         this.pluginStart();
                     }
                 });
-                this.plugin = plugin;
                 const text = `插件【${plugin.name}】启动成功！`;
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 0));
                 pageContent.append(createConfigPage.createConfigElement(plugin));
+                this.plugin = plugin;
+
                 // this.pluginStart();
 
             } else
@@ -249,14 +265,24 @@ export class REIFUU_Plugin
         } else
         {
             plugin.pluginID = generateRandomString();
-            this.plugin = plugin;
+
             const text = `插件【${plugin.name}】启动成功！`;
             console.log(text);// 这句
             // 配置构型生成
             pageContent.append(createConfigPage.createConfigElement(text));
+            this.plugin = plugin;
 
             // this.pluginStart();
         }
+
+        // setInterval(()=>{
+        //     console.log('b', this.plugin.value)
+        // },10000)
+
+        // window.onunload = function () {
+        //     this.pluginConfigSave();
+        // };
+        this.pluginConfigSave();
     }
 }
 

@@ -19,6 +19,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
         //     f: this.server.schema.array(Number).default([1, 2, 3, 4, 5]),
         //     g: this.server.schema.array(String).default(["12", "34"]),
         // }
+
     };
     url = "https://www.baidu.com";
     feedback = "https://www.baidu.com";
@@ -61,6 +62,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
     test()
     {
     }
+
     getNowMatchUser(str)
     {
         let userList = [];
@@ -103,5 +105,6 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
         });
         return userList;
     }
+
 
 };
