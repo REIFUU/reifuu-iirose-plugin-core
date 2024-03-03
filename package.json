@@ -10,5 +10,9 @@
     "schemastery": "^3.14.3",
     "semver": "^7.5.4"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^5.3.3"
+  }
 }
