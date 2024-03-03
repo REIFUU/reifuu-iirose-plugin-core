@@ -405,5 +405,7 @@ new class loader extends REIFUU_Plugin
             if (type == 'delete') { this.delJs(value); }
             if (type == 'add') { this.addJs(value); }
         });
+
+        this.jsUrlList = newlist;
     }
 };
