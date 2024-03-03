@@ -322,20 +322,24 @@ new class loader extends REIFUU_Plugin
     // 添加js
     addJs(url) 
     {
+        console.log(`正在安装【${url}】`)
         const insideDoc = getInsideDoc();
         const jsDoc = document.createElement('script');
         jsDoc.src = url;
         jsDoc.id = md5(url);
 
         insideDoc.head.append(jsDoc);
+        console.log(`安装成功【${url}】`)
     };
 
     // 删除js
     delJs(url)
     {
+        console.log(`正在卸载【${url}】`)
         const insideDoc = getInsideDoc();
         const rmDom = insideDoc.getElementById(md5(url));
         rmDom.remove();
+        console.log(`卸载成功【${url}】`)
     }
 
     start()
@@ -349,7 +353,12 @@ new class loader extends REIFUU_Plugin
         this.jsUrlList = list;
     }
 
-    stop() { }
+    stop() { 
+        this.value.url.forEach((e) =>
+        {
+            this.delJs(e);
+        });
+    }
 
     arrayConfigChange(title, type)
     {
@@ -389,11 +398,12 @@ new class loader extends REIFUU_Plugin
         }
 
         const differences = compareArrays(oldList, newlist);
+        console.log(differences)
         differences.forEach((e) =>
         {
-            const { changeType, changeValue } = e;
-            if (changeType == 'delete') { this.delJs(changeValue); }
-            if (changeType == 'add') { this.addJs(changeValue); }
+            const { type, value } = e;
+            if (type == 'delete') { this.delJs(value); }
+            if (type == 'add') { this.addJs(value); }
         });
     }
 };
