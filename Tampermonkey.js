@@ -8,10 +8,10 @@
 // @match        https://iirose.com
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
-// @require      file:///C:/Users/11198/Desktop/T/js/reifuu-iirose-plugin-core/dist/index.js
-// @require      file:///C:/Users/11198/Desktop/T/js/reifuu-iirose-plugin-core/dist/demo1.js
-// @require      file:///C:/Users/11198/Desktop/T/js/reifuu-iirose-plugin-core/dist/demo2.js
-// @require      file:///C:/Users/11198/Desktop/T/js/reifuu-iirose-plugin-core/dist/demo3.js
+// @require      file:///dist文件夹下的index.js
+// @require      file:///dist文件夹下的demo1.js
+// @require      file:///dist文件夹下的demo2.js
+// @require      file:///dist文件夹下的demo3.js
 // ==/UserScript==
 
 (function() {
