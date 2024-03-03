@@ -8,16 +8,16 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
     
     config = {
         // '主要配置': {
-        //     // a: this.server.schema.boolean().default(true),
-        //     // b: this.server.schema.boolean().default(false),
-        //     // c: this.server.schema.string(),
-        //     // d: this.server.schema.string().role('secret')
+        //     // a: this.ctx.schema.boolean().default(true),
+        //     // b: this.ctx.schema.boolean().default(false),
+        //     // c: this.ctx.schema.string(),
+        //     // d: this.ctx.schema.string().role('secret')
         // },
         // '次要配置': {
-        //     h: this.server.schema.button().link('test'),
-        //     e: this.server.schema.string(),
-        //     f: this.server.schema.array(Number).default([1, 2, 3, 4, 5]),
-        //     g: this.server.schema.array(String).default(["12", "34"]),
+        //     h: this.ctx.schema.button().link('test'),
+        //     e: this.ctx.schema.string(),
+        //     f: this.ctx.schema.array(Number).default([1, 2, 3, 4, 5]),
+        //     g: this.ctx.schema.array(String).default(["12", "34"]),
         // }
 
     };
@@ -30,9 +30,9 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
 
         this.plugInit(this);
 
-        this.server.inputHolder.addTrigger("/@", () =>
+        this.ctx.inputHolder.addTrigger("/@", () =>
         {
-            this.server.inputHolder.createinputHolder(this.getNowMatchUser(this.server.inputHolder.triggerContent[2]));
+            this.ctx.inputHolder.createinputHolder(this.getNowMatchUser(this.ctx.inputHolder.triggerContent[2]));
 
 
         });
@@ -82,7 +82,7 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
                             "content": "@" + userJson[item][2],
                             "callback": () =>
                             {
-                                this.server.inputHolder.moveInput.value = `${this.server.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.server.inputHolder.triggerContent[3]}`;
+                                this.ctx.inputHolder.moveInput.value = `${this.ctx.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.ctx.inputHolder.triggerContent[3]}`;
                             }
                         });
                     }
@@ -93,8 +93,8 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
                         "callback": () =>
                         {
                             const textSizeMeasurer = document.getElementById('textSizeMeasurer');
-                            this.server.inputHolder.moveInput.value = `${this.server.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.server.inputHolder.triggerContent[3]}`;
-                            textSizeMeasurer.innerHTML = `${this.server.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.server.inputHolder.triggerContent[3]}`;
+                            this.ctx.inputHolder.moveInput.value = `${this.ctx.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.ctx.inputHolder.triggerContent[3]}`;
+                            textSizeMeasurer.innerHTML = `${this.ctx.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.ctx.inputHolder.triggerContent[3]}`;
 
                             window['moveinputBubble'].style.width = textSizeMeasurer.clientWidth + "px";
 
