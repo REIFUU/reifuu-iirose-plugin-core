@@ -2,12 +2,15 @@ import Schema from 'schemastery';
 import md5 from 'md5';
 import semver from 'semver';
 import EventEmitter from "events";
-import { createConfigPage, modifyFaceHolder } from '../lib/createUI.js';
+import { createConfigPage } from '../lib/createUI.js';
+import { inputHolder } from "../lib/inputHolder.js";
 
-Schema.button = () => {
+Schema.button = () =>
+{
     return {
         type: "button",
-        link: (funcName) => {
+        link: (funcName) =>
+        {
             const includeFun = {
                 type: "button",
                 click: funcName
@@ -25,7 +28,8 @@ window.Schema = Schema;
  * @returns 
  */
 // TODO:优化唯一性生成
-function generateRandomString() {
+function generateRandomString()
+{
     let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
     for (let i = 0; i < 16; i++)
@@ -71,7 +75,8 @@ const eventEmitter = new EventEmitter();
 const corxList = {};
 
 /** @class */
-export class REIFUU_Plugin {
+export class REIFUU_Plugin
+{
     /** @type { string } name - 插件名称 */
     name;
     /** @type { string } versions -  插件版本 */
@@ -88,7 +93,8 @@ export class REIFUU_Plugin {
     /** 插件服务 */
     ctx = {
         schema: Schema,
-        event: eventEmitter
+        event: eventEmitter,
+        inputHolder: inputHolder
     };
 
     // 插件共享空间
@@ -107,15 +113,14 @@ export class REIFUU_Plugin {
     /** @type {string} 插件id */
     pluginID;
 
-    createConfigPage = createConfigPage;
-
     /** @method constructor*/
     constructor() {
         this.corx = corxList;
     }
 
     /** @method start 启动主要子插件 */
-    async pluginStart() {
+    async pluginStart()
+    {
         if (!this.plugin) { return; }
 
         this.plugin.status = 'start';
@@ -131,7 +136,8 @@ export class REIFUU_Plugin {
     }
 
     /** @method start 停止主要子插件 */
-    async pluginStop() {
+    async pluginStop()
+    {
         if (!this.plugin) { return; }
 
         this.plugin.status = 'stop';
@@ -146,7 +152,8 @@ export class REIFUU_Plugin {
 
     }
 
-    async pluginRemove() {
+    async pluginRemove()
+    {
         if (!this.plugin) { return; }
         this.plugin.status = 'remove';
         delete nowREIFUUPluginList[this.plugin.name];
@@ -168,14 +175,16 @@ export class REIFUU_Plugin {
         localStorage.setItem(key, dataTemp.toString());
     }
 
-    async pluginReload() {
+    async pluginReload()
+    {
         if (!this.plugin) { return; }
         this.plugin.status = 'reload';
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
-    pluginConfigSave() {
+    pluginConfigSave()
+    {
         // 存储插件配置缓存
         const key = `reifuuTemp.${this.plugin.name}`;
         let data = JSON.parse(localStorage.getItem(key));
@@ -186,7 +195,8 @@ export class REIFUU_Plugin {
         localStorage.setItem(key, JSON.stringify(data));
     }
 
-    async plugInit(plugin) {
+    async plugInit(plugin)
+    {
         if (!plugin) { return; }
         nowREIFUUPluginList[plugin.name] = [plugin.versions];
 
@@ -227,7 +237,8 @@ export class REIFUU_Plugin {
             if (dependStatus === 0)
             {
                 plugin.pluginID = generateRandomString();
-                eventEmitter.on(plugin.pluginID, (status) => {
+                eventEmitter.on(plugin.pluginID, (status) =>
+                {
                     if (status == 'stop')
                     {
                         this.pluginStop();
