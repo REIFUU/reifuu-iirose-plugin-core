@@ -4,7 +4,8 @@ import semver from 'semver';
 import EventEmitter from "events";
 import { createConfigPage } from '../lib/createUI.js';
 import { inputHolder } from "../lib/inputHolder.js";
-import sdk from '../lib/iirose-universal-sdk/index.ts'
+import sdk from '../lib/iirose-universal-sdk/index.ts';
+import { getInsideDoc } from '../lib/tools.js';
 
 Schema.button = () =>
 {
@@ -114,7 +115,8 @@ export class REIFUU_Plugin
     pluginID;
 
     /** @method constructor*/
-    constructor() {
+    constructor()
+    {
         this.corx = corxList;
     }
 
@@ -292,6 +294,58 @@ const nowREIFUUPluginList = {
 };
 
 // 缓存
-const REIFUUPluginListTemp = {
+const REIFUUPluginListTemp = {};
 
+// 加载插件
+new class loader extends REIFUU_Plugin
+{
+    name = '插件加载器';
+    versions = '0.0.1';
+    depend = {
+        core: '0.0.1'
+    };
+
+    config = {
+        url: this.ctx.schema.array(String).description('js站点地址')
+    };
+
+    // url = "https://www.baidu.com";
+    // feedback = "https://www.baidu.com";
+    constructor()
+    {
+        super();
+        this.plugInit(this);
+    }
+
+    jsUrlList = [];
+
+    start()
+    {
+        const insideDoc = getInsideDoc();
+        const list = this.value.url;
+
+        // 添加js
+        const addJs = (url) =>
+        {
+            const jsDoc = document.createElement('script');
+            jsDoc.src = url;
+
+            insideDoc.head.append(jsDoc);
+        };
+
+        list.forEach(element =>
+        {
+            addJs(element);
+        });
+        this.jsUrlList = list;
+    }
+
+    stop() { }
+
+    arrayConfigChange(title, type)
+    {
+        const newlist = this.value.url
+        const oldList = this.jsUrlList
+        
+    }
 };
