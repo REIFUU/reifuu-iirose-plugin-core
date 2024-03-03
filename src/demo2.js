@@ -20,11 +20,11 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
         // 理论上插件允许多开，只要把变量定义在这个类里面就好了
 
         /* code */
-        this.server.inputHolder.addTrigger(/~([\s\S]+)/, (value) =>
+        this.ctx.inputHolder.addTrigger(/~([\s\S]+)/, (value) =>
         {
             // 获取输入的歌名
             const input = value[1];
-            this.server.inputHolder.createinputHolder([{
+            this.ctx.inputHolder.createinputHolder([{
                 content: '点歌',
                 "callback": () =>
                 {
@@ -78,7 +78,7 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
 
                 socket.send(`&1${data}`);
 
-                this.server.inputHolder.moveInput.value = '';
+                this.ctx.inputHolder.moveInput.value = '';
 
                 _alert("成功点歌啦");
             }).catch(error =>
