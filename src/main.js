@@ -8,17 +8,24 @@ import sdk from '../lib/iirose-universal-sdk/index.ts';
 import { getInsideDoc } from '../lib/tools.js';
 
 Schema.button = () => {
-    return {
-        type: "button",
-        link: (funcName) => {
-            const includeFun = {
-                type: "button",
-                click: funcName
-            };
+    let description=''
+    let funcName =''
 
+    const includeFun = {
+        type: "button",
+        click: funcName,
+        meta:{description:description},
+        link: (funcName) => {
+            includeFun.click = funcName
+            return includeFun;
+        },
+        description:(str)=>{
+            includeFun.meta.description = str
             return includeFun;
         }
     };
+
+    return includeFun
 };
 
 window.Schema = Schema;
@@ -255,7 +262,7 @@ export class REIFUU_Plugin {
                 console.log(text);
                 pageContent.append(createConfigPage.createTipsElement(text, 2));
                 this.plugin = null;
-                return ;
+                return;
             }
         } else
         {
@@ -297,6 +304,7 @@ new class loader extends REIFUU_Plugin {
     };
 
     config = {
+        reload: this.ctx.schema.button().link("reload").description('重载按钮'),
         url: this.ctx.schema.array(String).description('js站点地址')
     };
 
@@ -319,6 +327,7 @@ new class loader extends REIFUU_Plugin {
 
         insideDoc.head.append(jsDoc);
         console.log(`安装成功【${url}】`);
+        _alert(`安装成功【${url}】`)
     };
 
     // 删除js
@@ -328,6 +337,8 @@ new class loader extends REIFUU_Plugin {
         const rmDom = insideDoc.getElementById(md5(url));
         rmDom.remove();
         console.log(`卸载成功【${url}】`);
+
+        _alert(`卸载成功【${url}】，请点击上方重载按钮应用修改`)
     }
 
     start() {
@@ -343,6 +354,8 @@ new class loader extends REIFUU_Plugin {
         this.value.url.forEach((e) => {
             this.delJs(e);
         });
+
+        this.pluginConfigSave();
     }
 
     arrayConfigChange(title, type) {
@@ -389,5 +402,9 @@ new class loader extends REIFUU_Plugin {
         });
 
         this.jsUrlList = newlist;
+    }
+
+    reload() {
+        return location.reload();
     }
 };
