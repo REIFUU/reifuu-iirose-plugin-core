@@ -12,6 +12,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "rollup-plugin-serve": "^1.1.1",
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^5.3.3"
   }
