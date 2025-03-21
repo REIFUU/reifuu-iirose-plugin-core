@@ -1,12 +1,13 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import typescript from "rollup-plugin-typescript2";
+// import typescript from "rollup-plugin-typescript2";
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import server from 'rollup-plugin-serve';
 import { readdirSync } from 'fs';
 import path from 'path';
 import terser from '@rollup/plugin-terser';
 import replace from "@rollup/plugin-replace";
+import typescript from '@rollup/plugin-typescript';
 
 const inputDir = './src'; // 更改为您的输入目录路径
 const outputDir = './dist'; // 更改为您的输出目录路径
@@ -24,13 +25,13 @@ export default files.map(file => ({
   plugins: [
     resolve(), // 解析第三方模块
     commonjs(), // 将 CommonJS 模块转换为 ES6 模块
-    typescript({ tsconfig: './tsconfig.json', tsconfigOverride: override }),
+    typescript({ tsconfig: './tsconfig.json'}),
     nodePolyfills(),
     server({
       contentBase: [outputDir],
       port: 8080
     }),
-    terser(),
+    // terser(),
     replace({
       preventAssignment: true, // 避免错误
       values: {

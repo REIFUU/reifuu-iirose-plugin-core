@@ -3,6 +3,7 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-typescript": "^12.1.2",
     "eslint": "^9.22.0",
     "html-entities": "^2.4.0",
     "md5": "^2.3.0",

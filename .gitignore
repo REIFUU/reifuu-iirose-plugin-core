@@ -20,3 +20,5 @@ package-lock.json
 Tampermonkey.js
 
 yarn.lock
+
+.rollup.cache/*
