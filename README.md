@@ -1,4 +1,4 @@
-# Plugin-core
+# Plugin-core-ts版
 
 # 简介
 
