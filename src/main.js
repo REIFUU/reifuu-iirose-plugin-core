@@ -4,7 +4,6 @@ import semver from 'semver';
 import EventEmitter from "events";
 import { createConfigPage } from '../lib/createUI.js';
 import { inputHolder } from "../lib/inputHolder.js";
-import sdk from '../lib/iirose-universal-sdk/index.ts';
 import { getInsideDoc } from '../lib/tools.js';
 
 Schema.button = () => {
@@ -97,8 +96,7 @@ export class REIFUU_Plugin {
     ctx = {
         schema: Schema,
         event: eventEmitter,
-        inputHolder: inputHolder,
-        sdk: sdk.iirose
+        inputHolder: inputHolder
     };
 
     // 插件共享空间
