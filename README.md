@@ -1,4 +1,4 @@
-# Plugin-core
+# Plugin-core-纯js版
 
 # 简介
 
