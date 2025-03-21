@@ -5,6 +5,8 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 import server from 'rollup-plugin-serve';
 import { readdirSync } from 'fs';
 import path from 'path';
+import terser from '@rollup/plugin-terser';
+import replace from "@rollup/plugin-replace";
 
 const inputDir = './src'; // 更改为您的输入目录路径
 const outputDir = './dist'; // 更改为您的输出目录路径
@@ -27,7 +29,16 @@ export default files.map(file => ({
     server({
       contentBase: [outputDir],
       port: 8080
-    })
+    }),
+    terser(),
+    replace({
+      preventAssignment: true, // 避免错误
+      values: {
+        'import { REIFUU_Plugin } from "./main";': "",
+        'new class REIFUU_Plugin_demo1 extends REIFUU_Plugin':
+          "new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin",
+      },
+    }),
   ]
 }));
 

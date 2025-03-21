@@ -18,51 +18,51 @@
  */
 export const inputHolder = (() =>
 {
-    const moveInput = document.querySelector("#moveinput");
+    const moveInput = document.querySelector("#moveinput") as HTMLInputElement;
 
-    let triggerCondition = [];
-    let triggerContent = [];
+    let triggerCondition: any[] = [];
+    let triggerContent: any[] = [];
     let isTrigger = 0;
     let selectIndex = 0;
-    let nowCondition;
+    let nowCondition: any;
 
     let moveInputValue;
     let selectionStart;
-    let triggerStartIndex;
-    let triggerEndIndex;
-    let callback;
+    let triggerStartIndex: number;
+    let triggerEndIndex: number;
+    let callback: any;
 
     moveInput.addEventListener("keydown", (event) =>
     {
         const inputHolder = document.getElementById('inputHolder');
-        const holderItem = document.querySelectorAll("#holderItem");
+        const holderItem = document.querySelectorAll("#holderItem") as NodeListOf<Element>;
 
         // 屏蔽默认上下事件
-        if ((inputHolder ? true : false) && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
+        if ((inputHolder ? true : false) && ((event as KeyboardEvent).key === 'ArrowUp' || (event as KeyboardEvent).key === 'ArrowDown'))
         {
             event.preventDefault();
         }
 
         // 面板上下键选择
-        if (event.key === 'ArrowUp')
+        if ((event as KeyboardEvent).key === 'ArrowUp')
         {
             selectIndex = (selectIndex - 1 + holderItem.length) % holderItem.length;
             updateSelectedElement(holderItem);
-        } else if (event.key === 'ArrowDown')
+        } else if ((event as KeyboardEvent).key === 'ArrowDown')
         {
             selectIndex = (selectIndex + 1) % holderItem.length;
             updateSelectedElement(holderItem);
         }
 
         // 选择触发事件
-        if (event.key === 'Tab' && (inputHolder ? true : false))
+        if ((event as KeyboardEvent).key === 'Tab' && (inputHolder ? true : false))
         {
             event.preventDefault();
-            holderItem[selectIndex].click();
+            (holderItem[selectIndex] as HTMLElement).click();
         }
 
         //关闭面板
-        if (event.key === "Escape")
+        if ((event as KeyboardEvent).key === "Escape")
         {
             isTrigger = 0;
             deleteHolder();
@@ -71,7 +71,7 @@ export const inputHolder = (() =>
         //输入内容检查
         requestAnimationFrame(() =>
         {
-            if (event.key !== "ArrowDown" && event.key !== "ArrowUp")
+            if ((event as KeyboardEvent).key !== "ArrowDown" && (event as KeyboardEvent).key !== "ArrowUp")
             {
                 detectInput();
             }
@@ -85,7 +85,7 @@ export const inputHolder = (() =>
     {
 
         moveInputValue = moveInput.value;
-        selectionStart = moveInput.selectionStart;
+        selectionStart = moveInput.selectionStart as number;
 
         // 是否进入匹配后状态
         if (isTrigger)
@@ -111,19 +111,19 @@ export const inputHolder = (() =>
         } else
         {
             // 匹配检查
-            const contentBeforeCursor = moveInputValue.slice(0, selectionStart);
+            const contentBeforeCursor: string = moveInputValue.slice(0, selectionStart) as string;
             for (let condition of triggerCondition)
             {
                 if (condition.condition instanceof RegExp)
                 {
-                    const matchDataTemp = contentBeforeCursor.match(condition.condition)
+                    const matchDataTemp = contentBeforeCursor.match(condition.condition);
                     if (!matchDataTemp) { break; }
                     const matchLenght = matchDataTemp.length;
-                    const matchData = contentBeforeCursor.match(condition.condition)[matchLenght - 1];
+                    const matchData = (contentBeforeCursor.match(condition.condition) as RegExpMatchArray)[matchLenght - 1];
 
                     if (contentBeforeCursor.endsWith(matchData))
                     {
-                        triggerStartIndex = selectionStart - contentBeforeCursor.match(condition.condition)[0].length;
+                        triggerStartIndex = selectionStart - (contentBeforeCursor.match(condition.condition) as RegExpMatchArray)[0].length;
                         triggerEndIndex = selectionStart;
                         isTrigger = 1;
                         callback = condition.callback;
@@ -157,7 +157,7 @@ export const inputHolder = (() =>
      * @param {string|RegExp} condition 匹配触发内容，不包括匹配上后的进一步输入内容
      * @param {*} callback 匹配上后的回调
      */
-    function addTrigger(condition, callback)
+    function addTrigger(condition: string | RegExp, callback: (arg0: RegExpMatchArray) => void)
     {
         const trigger = { condition: condition, callback: callback };
         triggerCondition.push(trigger);
@@ -166,14 +166,14 @@ export const inputHolder = (() =>
     /**
      * 更新面板列表选中样式
      */
-    function updateSelectedElement(elementAll)
+    function updateSelectedElement(elementAll: NodeListOf<Element>)
     {
         elementAll.forEach((element, index) =>
         {
             if (index === selectIndex)
             {
                 // @ts-ignore
-                element.style.backgroundColor = `#${window['inputcolorhex']}88`;
+                element.style.backgroundColor = `#${window.inputcolorhex}88`;
             } else
             {
                 // @ts-ignore
@@ -191,7 +191,7 @@ export const inputHolder = (() =>
      * 创建弹出面板
      * @param {holderList[]} list 创建面板的依据数组
      */
-    function createinputHolder(list)
+    function createinputHolder(list: Record<string, any>)
     {
         // 清除当前存在面板
         deleteHolder();
@@ -204,8 +204,8 @@ export const inputHolder = (() =>
         }
 
 
-        const moveInputBubble = document.querySelector('#moveinputBubble');
-        const moveInput = document.querySelector("#moveinput");
+        const moveInputBubble = document.querySelector('#moveinputBubble') as Element;
+        const moveInput = document.querySelector("#moveinput") as Element;
 
         const moveInputBubbleStyle = window.getComputedStyle(moveInputBubble);
         const moveInputStyle = window.getComputedStyle(moveInput);
@@ -229,7 +229,7 @@ export const inputHolder = (() =>
         const close = document.createElement('div');
         close.id = "atClose";
         close.style.position = 'absolute';
-        close.style.background = `#${window['inputcolorhex']}`;
+        close.style.background = `#${window.inputcolorhex}`;
         close.style.height = '6px';
         close.style.width = '20%';
         close.style.top = '4px';
@@ -241,11 +241,11 @@ export const inputHolder = (() =>
         close.addEventListener('click', () =>
         {
             deleteHolder();
-            moveInput.focus();
+            (moveInput as HTMLInputElement).focus();
         });
         inputHolder.appendChild(close);
 
-        list.forEach((item, index) =>
+        list.forEach((item: any, index: number) =>
         {
             const userItem = document.createElement('div');
             userItem.id = 'holderItem';
@@ -262,7 +262,7 @@ export const inputHolder = (() =>
 
             if (index == selectIndex)
             {
-                userItem.style.background = `#${window['inputcolorhex']}88`;
+                userItem.style.background = `#${window.inputcolorhex}88`;
             }
 
             userItem.addEventListener('click', () =>
@@ -270,7 +270,7 @@ export const inputHolder = (() =>
                 isTrigger = 0;
                 item.callback();
                 deleteHolder();
-                moveInput.focus();
+                (moveInput as HTMLInputElement).focus();
             });
 
             userItem.textContent = item.content;

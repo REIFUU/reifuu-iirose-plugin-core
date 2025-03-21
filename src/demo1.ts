@@ -1,4 +1,6 @@
-new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
+import { REIFUU_Plugin } from "./main";
+
+new class REIFUU_Plugin_demo1 extends REIFUU_Plugin
 {
     name = 'at补全';
     versions = '0.0.1';
@@ -63,12 +65,12 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
     {
     }
 
-    getNowMatchUser(str)
+    getNowMatchUser(str:string)
     {
-        let userList = [];
-        const userJson = window['Objs'].mapHolder.Assets.userJson;
+        let userList: { content: string; callback: (() => void) | (() => void); }[] = [];
+        const userJson = window.Objs.mapHolder.Assets.userJson;
         const userNameList = Object.keys(userJson);
-        const nowRoom = window['roomn'];
+        const nowRoom = window.roomn;
 
         userNameList.forEach((/**@type {string}*/item) =>
         {
@@ -92,11 +94,11 @@ new class REIFUU_Plugin_demo1 extends window.reifuuPluginCore.REIFUU_Plugin
                         "content": "@" + userJson[item][2],
                         "callback": () =>
                         {
-                            const textSizeMeasurer = document.getElementById('textSizeMeasurer');
+                            const textSizeMeasurer = document.getElementById('textSizeMeasurer') as HTMLElement;
                             this.ctx.inputHolder.moveInput.value = `${this.ctx.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.ctx.inputHolder.triggerContent[3]}`;
                             textSizeMeasurer.innerHTML = `${this.ctx.inputHolder.triggerContent[0]} [*${userJson[item][2]}*] ${this.ctx.inputHolder.triggerContent[3]}`;
 
-                            window['moveinputBubble'].style.width = textSizeMeasurer.clientWidth + "px";
+                            window.moveinputBubble.style.width = textSizeMeasurer.clientWidth + "px";
 
                         }
                     });

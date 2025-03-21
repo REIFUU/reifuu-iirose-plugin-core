@@ -2,7 +2,7 @@
 
 # 简介
 
-项目地址：https://github.com/REIFUU/reifuu-iirose-plugin-core
+项目地址：<https://github.com/REIFUU/reifuu-iirose-plugin-core>
 
 ```jsx
 // 下载后，在根目录执行
@@ -24,42 +24,42 @@ npm install rollup -g
 
 ```jsx
 new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
-	// 插件名称
-	name = '插件名称';
+ // 插件名称
+ name = '插件名称';
 
-	// 插件版本
-	versions = '0.0.1';
+ // 插件版本
+ versions = '0.0.1';
 
-	// 插件依赖项
-	depend = {
-		core: '0.0.1'
-	};
+ // 插件依赖项
+ depend = {
+  core: '0.0.1'
+ };
 
-	// 插件配置项
-	config = {
-		a: this.server.schema.number().max(20).min(10),
-		b: this.server.schema.string().default('嗨嗨嗨')
-	};
+ // 插件配置项
+ config = {
+  a: this.server.schema.number().max(20).min(10),
+  b: this.server.schema.string().default('嗨嗨嗨')
+ };
 
-	// 插件初始化函数
-	constructor() {
-		super();
-		this.plugInit(this);
+ // 插件初始化函数
+ constructor() {
+  super();
+  this.plugInit(this);
 
-		/* code */
-		// 插件自身进行初始化代码
-		// 理论上插件允许多开，只要把变量定义在这个类里面就好了
-	}
+  /* code */
+  // 插件自身进行初始化代码
+  // 理论上插件允许多开，只要把变量定义在这个类里面就好了
+ }
 
-	// 插件开始执行函数
-	start() { }
+ // 插件开始执行函数
+ start() { }
 
-	// 插件停止时清除影响函数
-	stop() { }
+ // 插件停止时清除影响函数
+ stop() { }
 
-	// 向其他插件开放此服务，有此方法时，也需要有serverName属性来定义服务名称
-	server() {}
-	serverName = ''
+ // 向其他插件开放此服务，有此方法时，也需要有serverName属性来定义服务名称
+ server() {}
+ serverName = ''
 };
 ```
 
@@ -114,7 +114,6 @@ new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
 作用：此属性为本插件开放的服务名称，当server方法存在的时候子插件必须拥有此属性
 
 是否必填：否
-
 
 ### REIFUU_Plugin.server
 
@@ -172,45 +171,45 @@ this.plugInit(this)是使父类将此子类初始化的方法，请务必编写�
 
 ```jsx
 new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
-	// 插件名称
-	name = '测试插件';
+ // 插件名称
+ name = '测试插件';
 
-	// 插件版本
-	versions = '0.0.1';
+ // 插件版本
+ versions = '0.0.1';
 
-	// 插件依赖项
-	depend = {
-		core: '0.0.1'
-	};
+ // 插件依赖项
+ depend = {
+  core: '0.0.1'
+ };
 
-	// 插件配置项，无层级
-	config = {
-		a: this.server.schema.number()
-	};
+ // 插件配置项，无层级
+ config = {
+  a: this.server.schema.number()
+ };
 
-	// 插件配置项：有层级(层级最多为1层)
-	config = {
-		"main": {
-			a: this.server.schema.number()
-		}
-	};
+ // 插件配置项：有层级(层级最多为1层)
+ config = {
+  "main": {
+   a: this.server.schema.number()
+  }
+ };
 
-	// 插件初始化函数
-	constructor() {
-		super();
-		this.plugInit(this);// 使插件初始化，必写）
+ // 插件初始化函数
+ constructor() {
+  super();
+  this.plugInit(this);// 使插件初始化，必写）
 
-		// 插件进行初始化代码
-		// 理论上插件允许多开，只要把变量定义在这个类里面就好了
+  // 插件进行初始化代码
+  // 理论上插件允许多开，只要把变量定义在这个类里面就好了
 
-		/* code */
-	}
+  /* code */
+ }
 
-	// 插件开始执行函数
-	start() { console.log(this.value.a); }
+ // 插件开始执行函数
+ start() { console.log(this.value.a); }
 
-	// 插件停止时清除影响函数
-	stop() { }
+ // 插件停止时清除影响函数
+ stop() { }
 };
 ```
 
@@ -228,12 +227,12 @@ new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
 
 ```jsx
 config = {
-	"main": {
-		a: this.server.schema.number()
-	},
-	"other": {
-		b: this.server.schema.number()
-	}
+ "main": {
+  a: this.server.schema.number()
+ },
+ "other": {
+  b: this.server.schema.number()
+ }
 };
 ```
 
@@ -243,10 +242,10 @@ config = {
 
 ```jsx
 config = {
-	"main": {
-		a: this.server.schema.number(),
-		b: this.server.schema.number()
-	}
+ "main": {
+  a: this.server.schema.number(),
+  b: this.server.schema.number()
+ }
 };
 ```
 
@@ -325,31 +324,31 @@ this.server.schema.number().min(1).max(10).default(3).description("这里需要�
 ```jsx
 // 举个例子，如config为这样：
 config = {
-	a: this.server.schema.number(),
-	b: this.server.schema.number()
+ a: this.server.schema.number(),
+ b: this.server.schema.number()
 };
 
 // 生成的value为这样：
 value = {
-	a: 用户在输入框1输入的数字
-				b: 用户在输入框2输入的数字
+ a: 用户在输入框1输入的数字
+    b: 用户在输入框2输入的数字
 };
 
 // 在生成value时，config会忽视层级，如下格式的config，生成的value也依旧如上所述
 config = {
-	"main": {
-		a: this.server.schema.number()
-	},
-	"other": {
-		b: this.server.schema.number()
-	}
+ "main": {
+  a: this.server.schema.number()
+ },
+ "other": {
+  b: this.server.schema.number()
+ }
 };
 // 或者这个也一样
 config = {
-	"main": {
-		a: this.server.schema.number(),
-		b: this.server.schema.number()
-	}
+ "main": {
+  a: this.server.schema.number(),
+  b: this.server.schema.number()
+ }
 };
 ```
 

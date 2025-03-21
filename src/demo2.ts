@@ -1,4 +1,6 @@
-new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
+import { REIFUU_Plugin } from "./main";
+
+new class REIFUU_Plugin_demo2 extends REIFUU_Plugin
 {
     name = '隐式点歌';
 
@@ -20,7 +22,7 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
         // 理论上插件允许多开，只要把变量定义在这个类里面就好了
 
         /* code */
-        this.ctx.inputHolder.addTrigger(/~([\s\S]+)/, (value) =>
+        this.ctx.inputHolder.addTrigger(/~([\s\S]+)/, (value: RegExpMatchArray) =>
         {
             // 获取输入的歌名
             const input = value[1];
@@ -34,14 +36,14 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
         });
     }
 
-    openMusic(url)
+    openMusic(url: string)
     {
         // https://music.163.com/song?id=1924062187&userid=582785446
         // https://music.163.com/playlist?id=6643543480&userid=582785446
 
         url = url.replace(/https:\/\/music.163.com\/(#\/)*([\s\S]+)\?/, 'https://xc.null.red:8043/meting-api/?');
         if (/^(\d+)$/.test(url)) { url = url.replace(/(\d+)/, 'https://xc.null.red:8043/meting-api/?id=$1'); }
-
+        
         Urls.helper + 'lib/php/function/loadImg.php?s=' + encodeURIComponent(url);
         try
         {
@@ -70,7 +72,6 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
                     n: '0',
                     c: res.pic.substr(4),
                     d: Math.round(res.time / 1000),
-                    n: res.name,
                     o: res.url.substr(4),
                     r: res.auther,
                     s: res.url.substr(4),
@@ -80,19 +81,19 @@ new class REIFUU_Plugin_demo2 extends window.reifuuPluginCore.REIFUU_Plugin
 
                 this.ctx.inputHolder.moveInput.value = '';
 
-                _alert("成功点歌啦");
+                this.ctx.alert("成功点歌啦");
             }).catch(error =>
             {
                 // Do something useful with the error
                 console.log(error);
 
-                _alert("点歌失败了！");
+                this.ctx.alert("点歌失败了！");
             });
         } catch (err)
         {
             console.log(err);
 
-            _alert("点歌失败了！");
+            this.ctx.alert("点歌失败了！");
         }
     }
 };

@@ -2,6 +2,8 @@
   "dependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^6.0.2",
+    "eslint": "^9.22.0",
     "html-entities": "^2.4.0",
     "md5": "^2.3.0",
     "rollup": "^4.9.1",
@@ -12,8 +14,11 @@
   },
   "type": "module",
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/md5": "^2.3.5",
+    "@types/node": "^22.13.10",
+    "@types/semver": "^7.5.8",
     "rollup-plugin-serve": "^1.1.1",
-    "rollup-plugin-terser": "^7.0.2",
     "typescript": "^5.3.3"
   }
 }

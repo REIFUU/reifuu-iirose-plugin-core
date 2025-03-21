@@ -7,21 +7,22 @@
  * @param {function (): void} canDo 可以执行时执行此函数
  * @param {boolean} [immediate]
  */
-export function intervalTry(callback, interval, canDo, immediate = false)
+export function intervalTry(callback: (arg0: number, arg1: number) => void, interval: number, canDo: () => void, immediate = false)
 {
 	let countOfCall = 0;
 	let startTime = Date.now();
-	let intervalId = null;
+	let intervalId: NodeJS.Timeout;
 	let func = (() =>
 	{
 		countOfCall++;
 		try
 		{
 			callback(countOfCall, Date.now() - startTime);
-			if (intervalId != null){
+			if (intervalId != null)
+			{
 				clearInterval(intervalId);
 			}
-				
+
 			canDo();
 			return;
 		}
@@ -37,28 +38,29 @@ export function intervalTry(callback, interval, canDo, immediate = false)
  * 获取内层message.html
  * @param {document} 内层内容
  */
-export const getInsideDoc = () => {
-    if (location.host != "iirose.com")
-        return;
+export const getInsideDoc = () =>
+{
+	if (location.host != "iirose.com")
+		return;
 
-    let doc = null;
-    let win = null;
+	let doc = null;
+	let win = null;
 
-    if (location.pathname == "/")
-    {
-        doc = document;
-        win = window;
-    }
-    else if (location.pathname == "/messages.html")
-    {
-        doc = parent.document;
-        win = parent.window;
-    }
-    else return;
+	if (location.pathname == "/")
+	{
+		doc = document;
+		win = window;
+	}
+	else if (location.pathname == "/messages.html")
+	{
+		doc = parent.document;
+		win = parent.window;
+	}
+	else return;
 
-	const inside = doc.getElementById('mainFrame');
-    // const insideDoc = (inside.contentDocument)? inside.contentDocument: inside.contentWindow.document;
-    const insideDoc = inside.contentDocument;
+	const inside = doc.getElementById('mainFrame') as HTMLIFrameElement;
+	// const insideDoc = (inside.contentDocument)? inside.contentDocument: inside.contentWindow.document;
+	const insideDoc = inside.contentDocument;
 
-	return insideDoc
-}
+	return insideDoc;
+};

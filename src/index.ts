@@ -5,10 +5,10 @@ intervalTry(() =>
     window.socket._onmessage.bind;
 }, 10, () =>
 {
-    console.log('Reifuu插件核心管理器正在加载....')
-    const insideDoc = getInsideDoc();
+    console.log('Reifuu插件核心管理器正在加载....');
+    const insideDoc = getInsideDoc() as Document;
 
-    const jsUrl = 'http://127.0.0.1:8080/main.js';
+    const jsUrl = 'http://localhost:8080/main.js';
     const jsDoc = document.createElement('script');
     jsDoc.src = jsUrl;
 

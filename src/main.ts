@@ -2,40 +2,55 @@ import Schema from 'schemastery';
 import md5 from 'md5';
 import semver from 'semver';
 import EventEmitter from "events";
-import { createConfigPage } from '../lib/createUI.js';
-import { inputHolder } from "../lib/inputHolder.js";
-import sdk from '../lib/iirose-universal-sdk/index.ts';
-import { getInsideDoc } from '../lib/tools.js';
+import { createConfigPage } from '../lib/createUI';
+import { inputHolder } from "../lib/inputHolder";
+import { getInsideDoc } from '../lib/tools';
 
-Schema.button = () => {
-    let description=''
-    let funcName =''
+type SchemeButtonReturn = {
+    type: string;
+    click: string;
+    meta: { description: string; };
+    link: (funcName: string) => SchemeButtonReturn;
+    description: (str: string) => SchemeButtonReturn;
+};
+
+const SchemaFork: Schemastery.Static & {
+    button: () => SchemeButtonReturn;
+} = Schema as any;
+
+SchemaFork.button = () =>
+{
+    let description = '';
+    let funcName = '';
 
     const includeFun = {
         type: "button",
         click: funcName,
-        meta:{description:description},
-        link: (funcName) => {
-            includeFun.click = funcName
+        meta: { description: description },
+        link: (funcName: string) =>
+        {
+            includeFun.click = funcName;
             return includeFun;
         },
-        description:(str)=>{
-            includeFun.meta.description = str
+        description: (str: string) =>
+        {
+            includeFun.meta.description = str;
             return includeFun;
         }
     };
 
-    return includeFun
+    return includeFun;
 };
 
-window.Schema = Schema;
+window.Schema = SchemaFork;
 
 /**
  * 生成16位随机英文+数字 
  * @returns 
  */
 // TODO:优化唯一性生成
-function generateRandomString() {
+function generateRandomString()
+{
     let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
     for (let i = 0; i < 16; i++)
@@ -43,8 +58,8 @@ function generateRandomString() {
         let randomIndex = Math.floor(Math.random() * characters.length);
         result += characters[randomIndex];
     }
-    const now = Date.now();
-    result += md5(now);;
+    const now: number = Date.now();
+    result += md5(String(now));;
     return result;
 }
 
@@ -76,54 +91,65 @@ function generateRandomString() {
 // }
 
 const eventEmitter = new EventEmitter();
-const corxList = {};
+const corxList: Record<string, (() => Promise<void> | void)> = {};
 
 /** @class */
-export class REIFUU_Plugin {
+export class REIFUU_Plugin
+{
     /** @type { string } name - 插件名称 */
-    name;
+    name: string = '';
     /** @type { string } versions -  插件版本 */
-    versions;
+    versions: string = '';
     /** @type { JSON } 插件依赖 */
-    depend;
+    depend: Record<string, string> = {};
     /** @type { JSON } 插件配置构型 */
-    config;
+    config: Record<string, any> = {};
     /** @type { String } 插件详情网站地址 */
-    url;
+    url: string = '';
     /** @type { String } 插件反馈网站地址 */
-    feedback;
+    feedback: string = '';
 
     /** 插件服务 */
     ctx = {
-        schema: Schema,
+        schema: SchemaFork,
         event: eventEmitter,
         inputHolder: inputHolder,
-        sdk: sdk.iirose
+        // @ts-ignore
+        alert: _alert,
     };
 
     // 插件共享空间
-    corx = {};
+    corx: Record<string, (() => Promise<void> | void)> = {};
 
     /** 插件配置构型的数据 */
-    value = {};
+    value: Record<string, any> = {};
 
     /** @type { 'start' | 'stop' | 'reload' | 'error' | 'remove' } */
-    status = 'stop';
+    status: 'start' | 'stop' | 'reload' | 'error' | 'remove' = 'stop';
 
     /** @type { REIFUU_Plugin } 当前子类*/
     /** @private */
-    plugin;
+    private plugin: REIFUU_Plugin | undefined;
 
     /** @type {string} 插件id */
-    pluginID;
+    pluginID: string = '';
+
+    server: (() => Promise<void> | void) | undefined;
+    serverName: string = '';
+    start(): Promise<void> | void { }
+    stop(): Promise<void> | void { };
+
+
 
     /** @method constructor*/
-    constructor() {
+    constructor()
+    {
         this.corx = corxList;
     }
 
     /** @method start 启动主要子插件 */
-    async pluginStart() {
+    async pluginStart()
+    {
         if (!this.plugin) { return; }
 
         this.plugin.status = 'start';
@@ -134,13 +160,15 @@ export class REIFUU_Plugin {
 
         REIFUUPluginListTemp[this.plugin.name].push(this.plugin.pluginID);
 
-        if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
-        if (typeof this.plugin.server !== "undefined") { this.corx[this.plugin.serverName] = this.plugin.server; }
+        // @ts-ignore
+        if (typeof this.plugin.start !== undefined) { await this.plugin.start(); }
+        if (typeof this.plugin.server !== undefined) { this.corx[this.plugin.serverName] = this.plugin.server as (() => Promise<void> | void); }
         this.pluginConfigSave();
     }
 
     /** @method start 停止主要子插件 */
-    async pluginStop() {
+    async pluginStop()
+    {
         if (!this.plugin) { return; }
 
         this.plugin.status = 'stop';
@@ -155,7 +183,8 @@ export class REIFUU_Plugin {
 
     }
 
-    async pluginRemove() {
+    async pluginRemove()
+    {
         if (!this.plugin) { return; }
         this.plugin.status = 'remove';
         delete nowREIFUUPluginList[this.plugin.name];
@@ -165,11 +194,12 @@ export class REIFUU_Plugin {
 
         if (typeof this.plugin.server !== "undefined") { delete this.corx[this.plugin.serverName]; delete corxList[this.plugin.serverName]; }
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
-        this.plugin = null;
+        this.plugin = undefined;
 
         // 删除配置序列的最后一项
         // 也许这个也不用写
         // 不对，还是要的
+        // @ts-ignore
         const key = `reifuuTemp.${this.plugin.name}`;
         const dataTemp = Array(localStorage.getItem(key));
 
@@ -177,17 +207,21 @@ export class REIFUU_Plugin {
         localStorage.setItem(key, dataTemp.toString());
     }
 
-    async pluginReload() {
+    async pluginReload()
+    {
         if (!this.plugin) { return; }
         this.plugin.status = 'reload';
         if (typeof this.plugin.stop !== "undefined") { await this.plugin?.stop(); }
         if (typeof this.plugin.start !== "undefined") { await this.plugin?.start(); }
     }
 
-    pluginConfigSave() {
+    pluginConfigSave()
+    {
         // 存储插件配置缓存
+        // @ts-ignore 
+        if (!this.plugin) return;
         const key = `reifuuTemp.${this.plugin.name}`;
-        let data = JSON.parse(localStorage.getItem(key));
+        let data = JSON.parse(localStorage.getItem(key) as string);
 
         data[this.plugin.pluginID] = this.plugin.value;
         data[this.plugin.pluginID].ReifuuPluginStatus = this.plugin.status;
@@ -195,20 +229,22 @@ export class REIFUU_Plugin {
         localStorage.setItem(key, JSON.stringify(data));
     }
 
-    async plugInit(plugin) {
+    async plugInit(plugin: REIFUU_Plugin)
+    {
         if (!plugin) { return; }
         this.plugin = plugin;
 
-        nowREIFUUPluginList[plugin.name] = [plugin.versions];
+        // nowREIFUUPluginList[plugin.name] = [plugin.versions];
+        nowREIFUUPluginList[plugin.name] = plugin.versions;
 
         const addPage = createConfigPage.createPlugContent(plugin);
-        const pageContent = addPage.querySelector("#pageContent");
+        const pageContent = addPage.querySelector("#pageContent") as Element;
         createConfigPage.addPage(plugin, addPage);
 
         if (plugin.depend)
         {
             /** @type { number } 0:通过依赖，1:缺少依赖*/
-            let dependStatus = 0;
+            let dependStatus: number = 0;
 
             for (let key in plugin.depend)
             {
@@ -225,14 +261,14 @@ export class REIFUU_Plugin {
                         dependStatus = 1;
                         const text = `依赖项 【${key}】，版本【${nowREIFUUPluginList[dependName]}】验证失败，需要版本：【${dependVersion}】`;
                         // 这边是依赖的插件版本不对
-                        pageContent.append(createConfigPage.createTipsElement(text, 2));
+                        pageContent.append(createConfigPage.createTipsElement(text, 2) as HTMLDivElement);
 
                     }
                 } else
                 {
                     dependStatus = 1;
                     const text = `插件【${plugin.name}】缺少依赖 【${key}】，版本：【${dependVersion}】`;
-                    pageContent.append(createConfigPage.createTipsElement(text, 2));
+                    pageContent.append(createConfigPage.createTipsElement(text, 2) as HTMLDivElement);
                     // 这边是缺少依赖
 
                 }
@@ -240,7 +276,8 @@ export class REIFUU_Plugin {
             if (dependStatus === 0)
             {
                 plugin.pluginID = generateRandomString();
-                eventEmitter.on(plugin.pluginID, (status) => {
+                eventEmitter.on(plugin.pluginID, (status) =>
+                {
                     if (status == 'stop')
                     {
                         this.pluginStop();
@@ -251,7 +288,7 @@ export class REIFUU_Plugin {
                 });
                 const text = `插件【${plugin.name}】启动成功！`;
                 console.log(text);
-                pageContent.append(createConfigPage.createTipsElement(text, 0));
+                pageContent.append(createConfigPage.createTipsElement(text, 0) as HTMLDivElement);
                 pageContent.append(createConfigPage.createConfigElement(plugin));
 
                 // this.pluginStart();
@@ -260,8 +297,8 @@ export class REIFUU_Plugin {
             {
                 const text = `插件【${plugin.name}】启动失败！`;
                 console.log(text);
-                pageContent.append(createConfigPage.createTipsElement(text, 2));
-                this.plugin = null;
+                pageContent.append(createConfigPage.createTipsElement(text, 2) as HTMLDivElement);
+                this.plugin = undefined;
                 return;
             }
         } else
@@ -288,15 +325,16 @@ export class REIFUU_Plugin {
 }
 
 
-const nowREIFUUPluginList = {
+const nowREIFUUPluginList: Record<string, string> = {
     core: '0.0.1'
 };
 
 // 缓存
-const REIFUUPluginListTemp = {};
+const REIFUUPluginListTemp: Record<string, string[]> = {};
 
 // 加载插件
-new class loader extends REIFUU_Plugin {
+new class loader extends REIFUU_Plugin
+{
     name = '插件加载器';
     versions = '0.0.1';
     depend = {
@@ -310,7 +348,8 @@ new class loader extends REIFUU_Plugin {
 
     // url = "https://www.baidu.com";
     // feedback = "https://www.baidu.com";
-    constructor() {
+    constructor()
+    {
         super();
         this.plugInit(this);
     }
@@ -318,52 +357,60 @@ new class loader extends REIFUU_Plugin {
     jsUrlList = [];
 
     // 添加js
-    addJs(url) {
+    addJs(url: string)
+    {
         console.log(`正在安装【${url}】`);
-        const insideDoc = getInsideDoc();
+        const insideDoc = getInsideDoc() as Document;
         const jsDoc = document.createElement('script');
         jsDoc.src = url;
         jsDoc.id = md5(url);
 
         insideDoc.head.append(jsDoc);
         console.log(`安装成功【${url}】`);
-        _alert(`安装成功【${url}】`)
+        this.ctx.alert(`安装成功【${url}】`);
     };
 
     // 删除js
-    delJs(url) {
+    delJs(url: string)
+    {
         console.log(`正在卸载【${url}】`);
-        const insideDoc = getInsideDoc();
-        const rmDom = insideDoc.getElementById(md5(url));
+        const insideDoc = getInsideDoc() as Document;
+        const rmDom = insideDoc.getElementById(md5(url)) as HTMLElement;
         rmDom.remove();
         console.log(`卸载成功【${url}】`);
 
-        _alert(`卸载成功【${url}】，请点击上方重载按钮应用修改`)
+        this.ctx.alert(`卸载成功【${url}】，请点击上方重载按钮应用修改`);
     }
 
-    start() {
+    start()
+    {
         const list = this.value.url;
 
-        list.forEach(element => {
+        list.forEach((element: string) =>
+        {
             this.addJs(element);
         });
         this.jsUrlList = list;
     }
 
-    stop() {
-        this.value.url.forEach((e) => {
+    stop()
+    {
+        this.value.url.forEach((e: string) =>
+        {
             this.delJs(e);
         });
 
         this.pluginConfigSave();
     }
 
-    arrayConfigChange(title, type) {
+    arrayConfigChange(title: string, type: string)
+    {
         const newlist = this.value.url;
         const oldList = this.jsUrlList;
 
         // arr1:old，arr2:new
-        function compareArrays(arr1, arr2) {
+        function compareArrays(arr1: any[], arr2: any[])
+        {
             const changes = [];
 
             // 检查arr1中是否有被修改或删除的元素
@@ -395,7 +442,8 @@ new class loader extends REIFUU_Plugin {
 
         const differences = compareArrays(oldList, newlist);
         console.log(differences);
-        differences.forEach((e) => {
+        differences.forEach((e) =>
+        {
             const { type, value } = e;
             if (type == 'delete') { this.delJs(value); }
             if (type == 'add') { this.addJs(value); }
@@ -404,7 +452,8 @@ new class loader extends REIFUU_Plugin {
         this.jsUrlList = newlist;
     }
 
-    reload() {
+    reload()
+    {
         return location.reload();
     }
 };

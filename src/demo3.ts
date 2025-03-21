@@ -1,4 +1,6 @@
-new class REIFUU_Plugin_demo3 extends window.reifuuPluginCore.REIFUU_Plugin {
+import { REIFUU_Plugin } from "./main";
+
+new class REIFUU_Plugin_demo3 extends REIFUU_Plugin {
     name = '测试3';
     versions = '0.0.5';
     depend = {
