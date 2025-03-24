@@ -23,7 +23,9 @@ npm install rollup -g
 # 插件模板
 
 ```jsx
-new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
+import { REIFUU_Plugin } from "../lib/main";
+
+new class REIFUU_Plugin_demo1 extends REIFUU_Plugin {
  // 插件名称
  name = '插件名称';
 
@@ -170,7 +172,9 @@ this.plugInit(this)是使父类将此子类初始化的方法，请务必编写�
 我们可以创建如下插件类，它会在插件配置页面生成一个数字类型输入框，并且在插件start的时候调用它
 
 ```jsx
-new class pluginDemoName extends reifuuPluginCore.REIFUU_Plugin {
+import { REIFUU_Plugin } from "../lib/main";
+
+new class REIFUU_Plugin_demo1 extends REIFUU_Plugin {
  // 插件名称
  name = '测试插件';
 
