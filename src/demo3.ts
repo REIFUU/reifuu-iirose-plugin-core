@@ -1,6 +1,7 @@
-import { REIFUU_Plugin } from "./main";
+import { REIFUU_Plugin } from "../lib/main";
 
-new class REIFUU_Plugin_demo3 extends REIFUU_Plugin {
+new class REIFUU_Plugin_demo3 extends REIFUU_Plugin
+{
     name = '测试3';
     versions = '0.0.5';
     depend = {
@@ -13,7 +14,8 @@ new class REIFUU_Plugin_demo3 extends REIFUU_Plugin {
         }
     };
 
-    constructor() {
+    constructor()
+    {
         super();
         this.plugInit(this);
 
@@ -23,12 +25,14 @@ new class REIFUU_Plugin_demo3 extends REIFUU_Plugin {
         /* code */
     }
 
-    start() {
+    start()
+    {
         // 插件主代码
         /* code */
     }
 
-    stop() {
+    stop()
+    {
         // 插件消除影响代码
         /* code */
     }

@@ -1,4 +1,4 @@
-import { REIFUU_Plugin } from "./main";
+import { REIFUU_Plugin } from "../lib/main";
 
 new class REIFUU_Plugin_demo2 extends REIFUU_Plugin
 {
@@ -43,7 +43,7 @@ new class REIFUU_Plugin_demo2 extends REIFUU_Plugin
 
         url = url.replace(/https:\/\/music.163.com\/(#\/)*([\s\S]+)\?/, 'https://xc.null.red:8043/meting-api/?');
         if (/^(\d+)$/.test(url)) { url = url.replace(/(\d+)/, 'https://xc.null.red:8043/meting-api/?id=$1'); }
-        
+
         Urls.helper + 'lib/php/function/loadImg.php?s=' + encodeURIComponent(url);
         try
         {

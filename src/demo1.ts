@@ -1,4 +1,4 @@
-import { REIFUU_Plugin } from "./main";
+import { REIFUU_Plugin } from "../lib/main";
 
 new class REIFUU_Plugin_demo1 extends REIFUU_Plugin
 {
@@ -7,7 +7,7 @@ new class REIFUU_Plugin_demo1 extends REIFUU_Plugin
     depend = {
         core: '0.0.1'
     };
-    
+
     config = {
         // '主要配置': {
         //     // a: this.ctx.schema.boolean().default(true),
@@ -65,7 +65,7 @@ new class REIFUU_Plugin_demo1 extends REIFUU_Plugin
     {
     }
 
-    getNowMatchUser(str:string)
+    getNowMatchUser(str: string)
     {
         let userList: { content: string; callback: (() => void) | (() => void); }[] = [];
         const userJson = window.Objs.mapHolder.Assets.userJson;

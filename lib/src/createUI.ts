@@ -7,7 +7,7 @@
  */
 
 import Schema from "schemastery";
-import { REIFUU_Plugin } from "../src/main";
+import { REIFUU_Plugin } from "../main";
 
 /**
  * 修改faceHolder相关方法
@@ -1048,7 +1048,7 @@ export const createConfigPage = (() =>
                 {
                     const inputItemList = listBox.querySelectorAll("input");
                     // let arr = observeArray([], schema?.observe);
-                    let arr:any[] = [];
+                    let arr: any[] = [];
                     // if (pluginConfig.value[title].add) { arr.add = pluginConfig.value[title].add; }
                     // if (pluginConfig.value[title].del) { arr.add = pluginConfig.value[title].del; }
 

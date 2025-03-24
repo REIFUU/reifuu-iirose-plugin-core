@@ -1,4 +1,4 @@
-import { getInsideDoc, intervalTry } from "../lib/tools";
+import { getInsideDoc, intervalTry } from "./src/tools";
 
 intervalTry(() =>
 {

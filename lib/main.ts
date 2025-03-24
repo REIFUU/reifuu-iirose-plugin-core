@@ -2,9 +2,9 @@ import Schema from 'schemastery';
 import md5 from 'md5';
 import semver from 'semver';
 import EventEmitter from "events";
-import { createConfigPage } from '../lib/createUI';
-import { inputHolder } from "../lib/inputHolder";
-import { getInsideDoc } from '../lib/tools';
+import { createConfigPage } from '../lib/src/createUI';
+import { inputHolder } from "../lib/src/inputHolder";
+import { getInsideDoc } from '../lib/src/tools';
 
 type SchemeButtonReturn = {
     type: string;
