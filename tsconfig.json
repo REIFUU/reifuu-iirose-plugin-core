@@ -11,5 +11,5 @@
     "strictFunctionTypes": false,
     "lib": [ "ESNext", "DOM" ]
   },
-  "include": [ "src", "types", "plugin", "lib/**/*" ]
+  "include": [ "src", "lib/types", "plugin", "lib/**/*" ]
 }
